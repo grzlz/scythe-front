@@ -16,7 +16,7 @@
       })
 
       if (error) throw error
-      message = 'Check your email for the login link!'
+      message = 'Revisa tu correo electrónico'
     } catch (error) {
       message = error.message
     } finally {
@@ -44,7 +44,7 @@
             />
           </div>
           <button type="submit" class="btn btn-primary w-100" disabled={loading}>
-            {loading ? 'Cargando...' : 'Envíar magic link'}
+            {loading ? 'Cargando...' : 'Envíar enlace de acceso'}
           </button>
         </form>
         {#if message}

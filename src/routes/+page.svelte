@@ -1,13 +1,13 @@
 <script>
-    let balance = 1000.00; // Example balance
+    let balance = 0; // Example balance
 </script>
 
 <div class="container">
     <div class="wallet-container">
         <!-- Balance Section -->
         <div class="balance-section">
-            <p class="balance-label">Balance Total</p>
-            <h1 class="balance-amount">${balance.toFixed(2)}</h1>
+            <p class="balance-label">Scythes</p>
+            <h1 class="balance-amount">{balance.toFixed(2)}</h1>
         </div>
 
         <!-- Buttons Section -->
