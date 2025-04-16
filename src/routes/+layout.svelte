@@ -39,10 +39,9 @@
   }
 </script>
 
-<!-- Navbar will always show now, we'll handle visibility with proper styling -->
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
-      <span class="navbar-brand">Mi Aplicación</span>
+      <img src="/logo.png" alt="Logo" style="height: 80px;" />
       <div class="ms-auto">
       {#if user}
         <button 
