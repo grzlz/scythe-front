@@ -11,7 +11,7 @@
       const { error } = await supabase.auth.signInWithOtp({
         email,
         options: {
-          emailRedirectTo: `${window.location.origin}/wallet`
+          emailRedirectTo: `https://scythe-theta.vercel.app/wallet`
         }
       })
 
@@ -31,10 +31,10 @@
   <div class="col-12 col-md-6 col-lg-4">
     <div class="card shadow">
       <div class="card-body">
-        <h2 class="text-center mb-4">Login</h2>
+        <h2 class="text-center mb-4">Iniciar sesión</h2>
         <form on:submit|preventDefault={handleLogin}>
           <div class="mb-3">
-            <label for="email" class="form-label">Email address</label>
+            <label for="email" class="form-label">Correo electrónico</label>
             <input
               type="email"
               class="form-control"
@@ -44,7 +44,7 @@
             />
           </div>
           <button type="submit" class="btn btn-primary w-100" disabled={loading}>
-            {loading ? 'Loading...' : 'Send Magic Link'}
+            {loading ? 'Cargando...' : 'Envíar magic link'}
           </button>
         </form>
         {#if message}
