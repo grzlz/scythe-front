@@ -19,7 +19,7 @@
       })
 
       if (error) throw error
-      message = 'Check your email for the registration link!'
+      message = 'Revisa tu correo electrónico para completar el registro.'
     } catch (error) {
       message = error.message
     } finally {
@@ -35,7 +35,7 @@
         <h2 class="text-center mb-4">Register</h2>
         <form on:submit|preventDefault={handleRegister}>
           <div class="mb-3">
-            <label for="email" class="form-label">Email address</label>
+            <label for="email" class="form-label">Correo electrónico</label>
             <input
               type="email"
               class="form-control"
@@ -45,7 +45,7 @@
             />
           </div>
           <button type="submit" class="btn btn-primary w-100" disabled={loading}>
-            {loading ? 'Loading...' : 'Register'}
+            {loading ? 'Cargando...' : 'Obtener enlace de acceso'}
           </button>
         </form>
         {#if message}

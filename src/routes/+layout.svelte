@@ -19,7 +19,7 @@
       
       // Redirect if not authenticated
       if (!user) {
-        goto('/auth/login')
+        goto('/auth/register')
       }
     })
 
