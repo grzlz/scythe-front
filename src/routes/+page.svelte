@@ -7,7 +7,7 @@
         <!-- Balance Section -->
         <div class="balance-section">
             <p class="balance-label">Scythes</p>
-            <h1 class="balance-amount">{balance.toFixed(2)}</h1>
+            <h1 class="balance-amount">{balance}</h1>
         </div>
 
         <!-- Buttons Section -->
