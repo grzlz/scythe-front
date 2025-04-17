@@ -32,7 +32,7 @@
   <div class="col-12 col-md-6 col-lg-4">
     <div class="card shadow">
       <div class="card-body">
-        <h2 class="text-center mb-4">Register</h2>
+        <h2 class="mb-4">Regístrate</h2>
         <form on:submit|preventDefault={handleRegister}>
           <div class="mb-3">
             <label for="email" class="form-label">Correo electrónico</label>

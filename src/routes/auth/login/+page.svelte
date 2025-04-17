@@ -28,7 +28,7 @@
   <div class="col-12 col-md-6 col-lg-4">
     <div class="card shadow">
       <div class="card-body">
-        <h2 class="text-center mb-4">Entra</h2>
+        <h2 class="text mb-4">Entra</h2>
         <form on:submit|preventDefault={handleLogin}>
           <div class="mb-3">
             <label for="email" class="form-label">Correo electrónico</label>
