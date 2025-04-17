@@ -9,14 +9,11 @@
     try {
       loading = true
       const { error } = await supabase.auth.signInWithOtp({
-        email,
-        options: {
-          emailRedirectTo: `https://scythe-theta.vercel.app/wallet`
-        }
+        email
       })
 
       if (error) throw error
-      message = 'Revisa tu correo electrónico'
+      message = 'Revisa tu correo electrónico.'
     } catch (error) {
       message = error.message
     } finally {
@@ -44,7 +41,7 @@
             />
           </div>
           <button type="submit" class="btn btn-primary w-100" disabled={loading}>
-            {loading ? 'Cargando...' : 'Envíar enlace de acceso'}
+            {loading ? 'Cargando...' : 'Obtener enlace de acceso'}
           </button>
         </form>
         {#if message}
