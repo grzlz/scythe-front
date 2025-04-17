@@ -2,20 +2,15 @@
   import { onMount } from 'svelte'
   import { supabase } from '$lib/supabase'
 
-  let balance = 1000.00 // This should come from your backend
+  let balance = 0 // This should come from your backend
   
-  function formatCurrency(amount) {
-    return new Intl.NumberFormat('es-ES', {
-      style: 'currency',
-      currency: 'EUR'
-    }).format(amount)
-  }
+
 </script>
 
 <div class="wallet-container">
   <div class="balance-card mb-4">
-    <h3 class="text-center mb-2">Balance</h3>
-    <h1 class="text-center balance-amount">{formatCurrency(balance)}</h1>
+    <h3 class="text-center mb-2">Scythes</h3>
+    <h1 class="text-center balance-amount">{balance}</h1>
   </div>
 
   <div class="action-buttons">
