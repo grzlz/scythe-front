@@ -4,13 +4,14 @@
   import { supabase } from '$lib/supabase'
   import { goto } from '$app/navigation'
   import { injectAnalytics } from '@vercel/analytics/sveltekit'
-  import { injectSpeedInsights } from '@vercel/speed-insights/sveltekit';
+  import { injectSpeedInsights } from '@vercel/speed-insights/sveltekit'
   import { isPublicRoute, getCurrentPath } from '$lib/auth.js'
+  import Footer from '$lib/components/Footer.svelte'
 
   let user = null
   let loading = true
   injectAnalytics()
-  injectSpeedInsights();
+  injectSpeedInsights()
 
   async function checkAuth() {
     try {
@@ -66,32 +67,37 @@
     </div>
   </div>
 {:else}
+  <div class="d-flex flex-column min-vh-100">
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
       <a href="/auth/login" class="navbar-brand">
         <img src="/logo.png" alt="Logo" style="height: 80px;" />
       </a>
       <div class="ms-auto d-flex align-items-center gap-3">
-        <button 
+          <button 
         class="btn btn-outline-danger rounded-pill px-4"
         on:click={() => goto('/about')}
       >
         ¿Qué es Scythe?
       </button>
         {#if user}
-          <button 
-            class="btn btn-outline-danger" 
+            <button 
+              class="btn btn-outline-danger" 
             on:click={handleLogout}
           >
             Cerrar sesión
           </button>
         {/if}
     </div>
+      </div>
 </nav>
 
-<main class="container mt-4">
+    <main class="container mt-4 flex-grow-1">
   <slot />
 </main>
+
+    <Footer />
+  </div>
 {/if}
 
 <style>
