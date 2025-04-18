@@ -67,32 +67,34 @@
     </div>
   </div>
 {:else}
-  <div class="d-flex flex-column min-vh-100">
+<div class="d-flex flex-column min-vh-100">
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
-      <a href="/auth/login" class="navbar-brand">
-        <img src="/logo.png" alt="Logo" style="height: 80px;" />
-      </a>
-      <div class="ms-auto d-flex align-items-center gap-3">
+      <div class="d-flex justify-content-between align-items-center w-100">
+        <a href="/auth/login" class="navbar-brand">
+          <img src="/logo.png" alt="Logo" style="height: 60px;" />
+        </a>
+        <div class="d-flex align-items-center gap-2">
           <button 
-        class="btn btn-outline-danger rounded-pill px-4"
-        on:click={() => goto('/about')}
-      >
-        ¿Qué es Scythe?
-      </button>
-        {#if user}
+            class="btn btn-outline-danger rounded-pill px-3"
+            on:click={() => goto('/about')}
+          >
+            ¿Qué es Scythe?
+          </button>
+          {#if user}
             <button 
               class="btn btn-outline-danger" 
-            on:click={handleLogout}
-          >
-            Cerrar sesión
-          </button>
-        {/if}
-    </div>
+              on:click={handleLogout}
+            >
+              Cerrar sesión
+            </button>
+          {/if}
+        </div>
       </div>
-</nav>
+    </div>
+  </nav>
 
-    <main class="container mt-4 flex-grow-1">
+<main class="container mt-4 flex-grow-1">
   <slot />
 </main>
 
