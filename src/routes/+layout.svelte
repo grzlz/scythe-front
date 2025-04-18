@@ -4,11 +4,13 @@
   import { supabase } from '$lib/supabase'
   import { goto } from '$app/navigation'
   import { injectAnalytics } from '@vercel/analytics/sveltekit'
+  import { injectSpeedInsights } from '@vercel/speed-insights/sveltekit';
   import { isPublicRoute, getCurrentPath } from '$lib/auth.js'
 
   let user = null
   let loading = true
   injectAnalytics()
+  injectSpeedInsights();
 
   async function checkAuth() {
     try {
