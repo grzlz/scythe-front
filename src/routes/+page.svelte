@@ -22,10 +22,15 @@
 
             <button class="btn btn-info wallet-button">
                     Historial
-                </button>
-            </div>
+            </button>
+            <button class="btn btn-dark wallet-button">
+                    Participar
+            </button>
+
         </div>
     </div>
+</div>
+
 <style>
     .wallet-container {
         padding: 2rem;
