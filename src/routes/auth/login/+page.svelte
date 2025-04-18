@@ -22,7 +22,9 @@
   }
 </script>
 
-
+<svelte:head>
+  <title>Entra</title>
+</svelte:head>
   
 <div class="row justify-content-center">
   <div class="col-12 col-md-6 col-lg-4">
