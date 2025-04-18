@@ -23,7 +23,7 @@
 </script>
 
 <svelte:head>
-  <title>Entra</title>
+  <title>Scythe: entra</title>
 </svelte:head>
   
 <div class="row justify-content-center">

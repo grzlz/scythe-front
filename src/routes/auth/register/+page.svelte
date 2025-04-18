@@ -29,7 +29,7 @@
 </script>
 
 <svelte:head>
-  <title>Regístrate</title>
+  <title>Scythe: regístrate</title>
 </svelte:head>
 
 <div class="row justify-content-center">
