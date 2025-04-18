@@ -73,7 +73,7 @@
       </a>
       <div class="ms-auto d-flex align-items-center gap-3">
         <button 
-        class="btn btn-outline-secondary rounded-pill px-4"
+        class="btn btn-outline-danger rounded-pill px-4"
         on:click={() => goto('/about')}
       >
         ¿Qué es Scythe?
