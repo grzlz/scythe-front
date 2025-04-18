@@ -4,7 +4,7 @@
   import { supabase } from '$lib/supabase'
   import { goto } from '$app/navigation'
   import { injectAnalytics } from '@vercel/analytics/sveltekit'
-  import { isPublicRoute, getCurrentPath } from '$lib/auth'
+  import { isPublicRoute, getCurrentPath } from '$lib/auth.js'
 
   let user = null
   let loading = true
