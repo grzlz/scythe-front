@@ -3,7 +3,8 @@ export function isPublicRoute(path) {
     // Routes that don't require authentication
     const publicRoutes = [
       '/auth/login',
-      '/auth/register'
+      '/auth/register',
+      '/about'
     ]
     
     return publicRoutes.some(route => path.startsWith(route))
