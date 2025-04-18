@@ -68,13 +68,16 @@
 {:else}
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
-      <a href="/" class="navbar-brand">
+      <a href="/auth/login" class="navbar-brand">
         <img src="/logo.png" alt="Logo" style="height: 80px;" />
       </a>
       <div class="ms-auto d-flex align-items-center gap-3">
-        <a href="/about" class="btn btn-outline-secondary rounded-pill px-4">
-          ¿Qué es scythe?
-        </a>
+        <button 
+        class="btn btn-outline-secondary rounded-pill px-4"
+        on:click={() => goto('/about')}
+      >
+        ¿Qué es Scythe?
+      </button>
         {#if user}
           <button 
             class="btn btn-outline-danger" 
