@@ -3,8 +3,10 @@
   import { onMount } from 'svelte'
   import { supabase } from '$lib/supabase'
   import { goto } from '$app/navigation'
+  import { injectAnalytics } from '@vercel/analytics/sveltekit'
 
   let user = null
+  injectAnalytics()
 
   onMount(() => {
     // Get initial session
