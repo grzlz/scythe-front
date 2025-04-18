@@ -1,28 +1,14 @@
 <script>
-  import { onMount } from 'svelte'
-  import { supabase } from '$lib/supabase'
-
-  let balance = 0 // This should come from your backend
+  import SendMoney from '$lib/components/SendMoney.svelte'
+  import RequestMoney from '$lib/components/RequestMoney.svelte'
 </script>
 
-<div class="wallet-container">
-  <div class="balance-card mb-4">
-    <h3 class="text-center mb-2">Scythes</h3>
-    <h1 class="text-center balance-amount">{balance}</h1>
+<div class="row g-4">
+  <div class="col-md-6">
+    <SendMoney />
   </div>
-
-  <div class="action-buttons">
-    <button class="btn btn-primary btn-lg w-100 mb-3" on:click={() => goto('/wallet/send')}>
-      Enviar
-    </button>
-    
-    <button class="btn btn-success btn-lg w-100 mb-3" on:click={() => goto('/wallet/request')}>
-      Solicitar
-    </button>
-    
-    <button class="btn btn-info btn-lg w-100" on:click={() => goto('/wallet/history')}>
-      Historial
-    </button>
+  <div class="col-md-6">
+    <RequestMoney />
   </div>
 </div>
 

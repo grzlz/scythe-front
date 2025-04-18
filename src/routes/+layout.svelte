@@ -3,25 +3,32 @@
   import { onMount } from 'svelte'
   import { supabase } from '$lib/supabase'
   import { goto } from '$app/navigation'
+  import { navigation } from '$app/stores'
 
   let user = null
+  let isInitialized = false // Use this instead of isLoading
 
-  onMount(() => {
-    // Get initial session
-    const session = supabase.auth.getSession()
-    console.log('Initial session:', session) // Add this line
+  onMount(async () => {
+      // Get initial session
+      const { data: { session } } = await supabase.auth.getSession()
       user = session?.user || null
-      
+
+    // Initial redirect if needed
+      if (!user && !window.location.pathname.includes('/auth')) {
+      await goto('/auth/register')
+        }
+
     // Set up auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      console.log('Auth state changed:', event, session) // Add this line
       user = session?.user || null
       
       // Redirect if not authenticated
-      if (!user) {
+      if (!user && !window.location.pathname.includes('/auth')) {
         goto('/auth/register')
       }
-    })
+  })
+
+    isInitialized = true // Mark as initialized after initial check
 
     return () => {
       subscription.unsubscribe()
@@ -32,33 +39,38 @@
     try {
       const { error } = await supabase.auth.signOut()
       if (error) throw error
-      goto('/auth/login')
+      goto('/auth/register')
     } catch (error) {
       console.error('Error logging out:', error.message)
     }
   }
 </script>
 
+{#if !isInitialized}
+  <!-- Show nothing while initializing to prevent flash -->
+{:else}
+  {#if user && !window.location.pathname.includes('/auth')}
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
-      <img src="/logo.png" alt="Logo" style="height: 80px;" />
+      <a href="/" class="navbar-brand">Mi Aplicación</a>
       <div class="ms-auto">
-      {#if user}
-        <button 
-          class="btn btn-outline-danger" 
-          on:click={handleLogout}
-        >
-          Cerrar sesión
-        </button>
-
-{/if}
-    </div>
-  </div>
-</nav>
-
+          <div class="d-flex align-items-center">
+            <span class="me-3">{user.email}</span>
+            <button 
+              class="btn btn-outline-danger" 
+              on:click={handleLogout}
+            >
+              Cerrar sesión
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+  {/if}
 <main class="container mt-4">
   <slot />
 </main>
+{/if}
 
 <style>
   :global(body) {
