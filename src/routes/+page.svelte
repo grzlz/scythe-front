@@ -17,16 +17,20 @@ async function fetchBalance() {
   const user = await supabase.auth.getUser()
   console.log(user)
   const { data, error } = await supabase
-    .from('wallets')
-    .select('balance')
-    .eq('user_id', user.data.user.id)
-    .maybeSingle();
+  .from('wallet')
+  .select('balance')
+  .eq('user_id', user.id)
+  .maybeSingle();
 
-  if (error) {
-    console.error('Error fetching balance:', error)
-  } else {
-    balance = data.balance
-  }
+if (error) {
+  console.error('Error fetching balance:', error);
+  balance = 0; // fallback
+} else if (data && data.balance != null) {
+  balance = data.balance;
+} else {
+  console.warn('No wallet row found for user, setting balance to 0');
+  balance = 0;
+}
 }
 
 
