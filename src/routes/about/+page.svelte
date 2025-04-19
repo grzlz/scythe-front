@@ -11,7 +11,7 @@
     <h1>¿Qué es Scythe?</h1>
   
     <p>
-      Scythe es sistema de producción de software diseñado para distribuir equitativamente los beneficios del trabajo entre inversionistas y trabajadores.
+      Scythe es un sistema de producción de software diseñado para distribuir equitativamente los beneficios del trabajo entre inversionistas y trabajadores.
     </p>
   
     <p>
@@ -21,7 +21,7 @@
   
     <h2>¿Cómo funciona? 🛠️</h2>
     <p>
-      Si estás familiarizado con metodologías Agile, entonces piensa que un scythe es igual a un story point. Los tokens se emiten al completar sprints exitosos ✅ y se pueden utilizar para participar en votaciones 🗳️, hacer solicitudes o proponer iniciativas 🚀 o se pueden intercambiar por otros tokens 📈. Toda la actividad es trazable y auditable.
+      Si estás familiarizado con metodologías Agile, entonces piensa que un scythe es igual a un story point. Los desarrolladores obtienen tokens al completar tareas exitosamente ✅ y los pueden utilizar para participar en votaciones 🗳️, hacer solicitudes, proponer iniciativas 🚀 o se pueden intercambiar por otros tokens 📈.
     </p>
   
     <p>
@@ -41,21 +41,21 @@
         <div class="step">
           <h3>2. Accede a tu wallet 🔐</h3>
           <p>
-            Una vez que inicies sesión, serás dirigido automáticamente a tu wallet personal dentro de <strong>Scythe</strong>.
+            Una vez que inicies sesión, serás dirigido automáticamente a tu wallet dentro de <strong>Scythe</strong>.
           </p>
         </div>
     
         <div class="step">
           <h3>3. Reclama tu airdrop 💸</h3>
           <p>
-            En tu wallet encontrarás un botón que dice <em>"Scythe airdrop"</em>. Haz clic y recibirás instantáneamente tus tokens en tu balance.
+            En tu wallet encontrarás un botón que dice <em>"Scythe airdrop"</em>. Haz click para recibir tus tokens.
           </p>
         </div>
     
         <div class="step">
           <h3>4. ¡Listo! 🚀</h3>
           <p>
-            Ya puedes usar tus Scythes para votar, proponer iniciativas o intercambiarlos dentro del marketplace interno.
+            Ya tienes tus scythes. A medida que vaya avanzando el proyecto, podrás utilizarlos para participar en votaciones, hacer solicitudes y proponer iniciativas.
           </p>
         </div>
       </div>
