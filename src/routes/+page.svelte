@@ -16,7 +16,7 @@
 async function fetchBalance() {
   const user = await supabase.auth.getUser()
   const { data, error } = await supabase
-    .from('wallet')
+    .from('wallets')
     .select('balance')
     .eq('user_id', user.data.user.id)
     .single();
@@ -56,6 +56,11 @@ if (error) {
   console.error('Error claiming airdrop:', error)
 } else {
   await fetchBalance()  // 🔁 Aquí refrescas
+  if (balance > 100) {
+    airdropClaimed = true;
+  } else {
+    airdropClaimed = false;
+  }
 }
   
       setTimeout(() => {
