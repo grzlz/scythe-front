@@ -50,7 +50,7 @@ async function fetchBalance() {
 
     const { error } = await supabase
     .from('transactions')
-    .insert([{ profile_id: user.data.user.id, type: 'airdrop', amount: 10 }])
+    .insert([{ user_id: user.data.user.id, type: 'airdrop', amount: 10 }])
 
 if (error) {
   console.error('Error claiming airdrop:', error)
