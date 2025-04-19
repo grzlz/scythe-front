@@ -1,10 +1,20 @@
 <script>
     import confetti from 'canvas-confetti';
+    import { onMount } from 'svelte';
+    import { supabase } from '$lib/supabase';
 
     let balance = 0;
     let showModal = false;
     let airdropClaimed = false;
     let showBonus = false;
+
+    onMount(async () => {
+   const user = await supabase.auth.getUser()
+
+   console.log(user)
+}
+)
+
   
     function openModal() {
       showModal = true;
