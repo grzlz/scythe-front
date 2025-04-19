@@ -17,7 +17,7 @@ async function fetchBalance() {
   const user = await supabase.auth.getUser()
   console.log(user)
   const { data, error } = await supabase
-  .from('wallet')
+  .from('wallets')
   .select('balance')
   .eq('user_id', user.id)
   .maybeSingle();
