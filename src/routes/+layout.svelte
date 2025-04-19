@@ -72,7 +72,7 @@
     <div class="container">
       <div class="d-flex justify-content-between align-items-center w-100">
         <a href="/auth/login" class="navbar-brand">
-          <img src="/logo.png" alt="Logo" style="height: 60px;" />
+          <img src="/logo.png" alt="Logo" style="height: 80px;" />
         </a>
         <div class="d-flex align-items-center gap-2">
           <button 

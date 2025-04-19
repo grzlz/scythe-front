@@ -1,17 +1,8 @@
-<footer class="footer mt-auto py-3 bg-light">
+<footer class="footer mt-auto py-4 bg-light text-center">
     <div class="container">
-      <div class="row align-items-center">
-        
-        <div class="col-md-4 d-flex justify-content-center align-items-center gap-2">
-          <img src="/icarus_logo.png" alt="Logo" style="height: 60px;" />
-        </div>
-  
-        <div class="col-md-4 offset-md-4">
-          <div class="d-flex justify-content-center justify-content-md-end gap-3">
-            <a href="/auth/register" class="text-decoration-none text-dark">Súmate</a>
-          </div>
-        </div>
-  
+      <img src="/icarus_logo.png" alt="Logo" style="height: 40px;" class="mb-2" />
+      <div>
+        <a href="/auth/register" class="text-decoration-none text-dark">Súmate</a>
       </div>
     </div>
   </footer>

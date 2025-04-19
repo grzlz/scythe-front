@@ -27,6 +27,7 @@ if (error) {
   balance = 0; // fallback
 } else if (data && data.balance != null) {
   balance = data.balance;
+  checkBalance();
 } else {
   console.warn('No wallet row found for user, setting balance to 0');
   balance = 0;
