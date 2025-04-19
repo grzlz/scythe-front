@@ -19,7 +19,7 @@
       })
 
       if (error) throw error
-      message = 'Revisa tu correo electrónico para completar el registro.'
+      message = 'No olvides revisar tu bandeja de spam.'
     } catch (error) {
       message = error.message
     } finally {
