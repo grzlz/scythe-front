@@ -1,10 +1,30 @@
 <script>
     import confetti from 'canvas-confetti';
+    import { supabase } from '$lib/supabase'
+    import { onMount } from 'svelte'
 
     let balance = 0;
     let showModal = false;
     let airdropClaimed = false;
     let showBonus = false;
+    let user = null;
+
+    onMount(async () => {
+   const user = await supabase.auth.getUser()
+
+   console.log(user)
+
+    if (user) {
+      const { data, error } = await supabase
+        .from('profile_balances')
+        .select('computed_balance')
+        .eq('profile_id', user.id)
+        .single()
+
+      if (data) balance = data.computed_balance
+    }
+  })
+
   
     function openModal() {
       showModal = true;
@@ -20,8 +40,28 @@
       }
     }
   
-    function claimAirdrop() {
+    async function claimAirdrop() {
       if (airdropClaimed) return;
+
+      const { data: userData } = await supabase.auth.getUser()
+
+      console.log(userData)
+    const profile_id = userData.user.id
+
+    const { error } = await supabase
+      .from('transactions')
+      .insert([{ profile_id, type: 'airdrop', amount: 10 }])
+
+    if (!error) {
+      // Re-fetch balance
+      const { data } = await supabase
+        .from('profile_balances')
+        .select('computed_balance')
+        .eq('profile_id', profile_id)
+        .single()
+
+      if (data) balance = data.computed_balance
+    }
 
       showBonus = true;
       checkBalance();
@@ -31,7 +71,7 @@
   
       setTimeout(() => {
         showBonus = false;
-      }, 1200); // hide after animation
+      }, 120); // hide after animation
       
       confetti({
       particleCount: 200,
@@ -39,6 +79,9 @@
       origin: { y: 0.6 }
     });
     }
+
+
+    
     
   </script>
   
