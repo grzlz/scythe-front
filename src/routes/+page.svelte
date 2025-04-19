@@ -9,11 +9,25 @@
     let showBonus = false;
 
     onMount(async () => {
-   const user = await supabase.auth.getUser()
+        await fetchBalance()
+    })
 
-   console.log(user)
+
+async function fetchBalance() {
+  const user = await supabase.auth.getUser()
+  const { data, error } = await supabase
+    .from('wallet')
+    .select('balance')
+    .eq('user_id', user.data.user.id)
+    .single();
+
+  if (error) {
+    console.error('Error fetching balance:', error)
+  } else {
+    balance = data.balance
+  }
 }
-)
+
 
   
     function openModal() {
@@ -30,14 +44,19 @@
       }
     }
   
-    function claimAirdrop() {
+    async function claimAirdrop() {
       if (airdropClaimed) return;
+      const user = await supabase.auth.getUser()
 
-      showBonus = true;
-      checkBalance();
+    const { error } = await supabase
+    .from('transactions')
+    .insert([{ profile_id: user.data.user.id, type: 'airdrop', amount: 10 }])
 
-        balance += 10;
-
+if (error) {
+  console.error('Error claiming airdrop:', error)
+} else {
+  await fetchBalance()  // 🔁 Aquí refrescas
+}
   
       setTimeout(() => {
         showBonus = false;
