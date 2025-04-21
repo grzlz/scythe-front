@@ -1,11 +1,14 @@
 <script>
     import { supabase } from '$lib/supabase'
     import { goto } from '$app/navigation'
+    import { blur, fade, fly, scale, slide } from 'svelte/transition'
   
     export let show = false
     export let mode = 'enviar'
     export let senderId
     export let closeModal = () => {}
+
+    console.log(senderId)
   
     let recipientEmail = ''
     let amount = ''
@@ -42,7 +45,9 @@
   {#if show}
     <div class="modal fade show d-block" tabindex="-1" role="dialog" style="background-color: rgba(0, 0, 0, 0.5);">
       <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content border-0 shadow-lg">
+        <div class="modal-content border-0 shadow-lg"
+        transition:fly={{y: 1000, duration: 400}}
+        >
           <div class="modal-header">
             <h5 class="modal-title">
               {#if mode === 'enviar'}Enviar Scythes{/if}
