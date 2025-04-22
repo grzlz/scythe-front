@@ -44,11 +44,11 @@
   </script>
   
   {#if show}
-    <div transition:fly={{y: 250, duration: 300}} class="modal fade show d-block" tabindex="-1" role="dialog" style="background-color: rgba(0, 0, 0, 0.5);">
+    <div transition:fly={{y: 200, duration: 300}} class="modal fade show d-block" tabindex="-1" role="dialog" style="background-color: rgba(0, 0, 0, 0.5);">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content border-0 shadow-lg"
         in:fly={{ y: 200, duration: 300, easing: cubicOut }}
-        out:fly={{ y: 200, duration: 200, easing: cubicIn }}
+        out:fly={{ y: 200, duration: 300, easing: cubicIn }}
         
   
         > 
