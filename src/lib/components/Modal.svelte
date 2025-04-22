@@ -1,7 +1,8 @@
 <script>
     import { supabase } from '$lib/supabase'
     import { goto } from '$app/navigation'
-    import { blur, fade, fly, scale, slide } from 'svelte/transition'
+    import { fly, slide } from 'svelte/transition'
+    import { expoOut } from 'svelte/easing';
   
     export let show = false
     export let mode = 'enviar'
@@ -46,8 +47,10 @@
     <div class="modal fade show d-block" tabindex="-1" role="dialog" style="background-color: rgba(0, 0, 0, 0.5);">
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content border-0 shadow-lg"
-        transition:slide={{ duration: 200 }}
-        >
+        in:fly={{y: 200, duration: 600 }}
+        out:slide={{duration: 300, easing: expoOut }}
+  
+        > 
           <div class="modal-header">
             <h5 class="modal-title">
               {#if mode === 'enviar'}Enviar Scythes{/if}
