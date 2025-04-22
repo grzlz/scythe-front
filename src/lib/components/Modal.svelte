@@ -2,7 +2,7 @@
     import { supabase } from '$lib/supabase'
     import { goto } from '$app/navigation'
     import { fly, slide } from 'svelte/transition'
-    import { cubicOut, quintOut } from 'svelte/easing';
+    import { backIn, cubicOut, quintOut } from 'svelte/easing';
   
     export let show = false
     export let mode = 'enviar'
@@ -48,7 +48,7 @@
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content border-0 shadow-lg"
         in:fly={{y: 200, duration: 600, easing: cubicOut }}
-        out:fly={{y: 200, duration: 600, easing: cubicOut }}
+        out:slide={{ duration: 250, easing: backIn }}
   
         > 
           <div class="modal-header">
