@@ -48,7 +48,7 @@
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content border-0 shadow-lg"
         in:fly={{y: 200, duration: 600, easing: cubicOut }}
-        out:slide={{ duration: 250, easing: backIn }}
+        out:slide={{ duration: 450, easing: backIn }}
   
         > 
           <div class="modal-header">
