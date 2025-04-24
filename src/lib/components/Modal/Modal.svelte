@@ -1,0 +1,62 @@
+<script>
+    import { supabase } from '$lib/supabase'
+    import { goto } from '$app/navigation'
+    import { fly } from 'svelte/transition'
+    import { cubicOut, cubicIn } from 'svelte/easing';
+    import ModalHeader from './ModalHeader.svelte';
+    import ModalBody from './ModalBody.svelte';
+    import ModalFooter from './ModalFooter.svelte';
+
+    export let mode = 'enviar'
+    export let senderId
+    export let closeModal = () => {}
+
+    console.log(senderId)
+  
+    let recipientEmail = ''
+    let amount = ''
+    let error = ''
+    let success = ''
+  
+    async function sendTokens() {
+      error = ''
+      success = ''
+  
+      if (!recipientEmail || !amount || isNaN(parseFloat(amount))) {
+        error = 'Correo o cantidad inválidos.'
+        return
+      }
+  
+      const { error: rpcError } = await supabase.rpc('send_tokens', {
+        sender_id: senderId,
+        recipient_email: recipientEmail,
+        amount: parseFloat(amount)
+      })
+  
+      if (rpcError) {
+        error = rpcError.message
+      } else {
+        success = 'Transferencia realizada con éxito.'
+        setTimeout(() => {
+          closeModal()
+          goto('/wallet')
+        }, 1000)
+      }
+    }
+  </script>
+  
+
+    <div class="modal show d-block" tabindex="-1" role="dialog" style="background-color: rgba(0, 0, 0, 0.5);" transition:fly={{y: 200, duration: 300}} >
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content border-0 shadow-lg"
+        in:fly={{ y: 200, duration: 300, easing: cubicOut }}
+        out:fly={{ y: 200, duration: 300, easing: cubicIn }}
+        
+  
+        > 
+        <ModalHeader {mode} {closeModal} />
+          <ModalBody {mode} {recipientEmail} {amount} {error} {success} />
+        <ModalFooter {mode} {closeModal} {sendTokens} />
+        </div>
+      </div>
+    </div>

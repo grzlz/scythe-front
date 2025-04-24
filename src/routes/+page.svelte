@@ -2,7 +2,7 @@
     import confetti from 'canvas-confetti';
     import { onMount } from 'svelte';
     import { supabase } from '$lib/supabase';
-    import Modal from '$lib/components/Modal.svelte';
+    import Modal from '$lib/components/Modal/Modal.svelte';
 
     let balance = 0;
     let airdropClaimed = false;
@@ -102,7 +102,7 @@
       <button 
         class="btn btn-danger btn-lg d-flex align-items-center justify-content-center gap-2 w-100"
         disabled={airdropClaimed}
-        on:click={claimAirdrop}
+        onclick={claimAirdrop}
       >
         <span class="fs-4">★</span>
         {airdropClaimed ? '¡Airdrop recibido!' : 'Scythe Airdrop'}
@@ -111,56 +111,30 @@
 
     <!-- Buttons Section -->
     <div class="buttons-container d-flex flex-wrap justify-content-center gap-3">
-      <button class="btn btn-primary wallet-button" on:click={() => openModal('enviar')}>
+      <button class="btn btn-primary wallet-button" onclick={() => openModal('enviar')}>
         Enviar
       </button>
     
-      <button class="btn btn-success wallet-button" on:click={() => openModal('solicitar')}>
+      <button class="btn btn-success wallet-button" onclick={() => openModal('solicitar')}>
         Solicitar
       </button>
     
-      <button class="btn btn-info wallet-button" on:click={() => openModal('historial')}>
+      <button class="btn btn-info wallet-button" onclick={() => openModal('historial')}>
         Historial
       </button>
     </div>
 
     <!-- Modal -->
+     {#if showModal}
+     <Modal mode={modalMode} senderId={1} closeModal={closeModal} />
+     {/if}
 
-    <Modal
-    senderId={1}
-    show={showModal}
-    mode={modalMode}
-    closeModal={closeModal}
-  />
 
 
   </div>
 </div>
   
 <style>
-  .modal-backdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0,0,0,0.5);
-    z-index: 10;
-  }
-
-  .custom-modal {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: white;
-    border-radius: 10px;
-    padding: 2rem;
-    z-index: 11;
-    text-align: center;
-    max-width: 90%;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-  }
 
   .wallet-container {
     padding: 2rem;
