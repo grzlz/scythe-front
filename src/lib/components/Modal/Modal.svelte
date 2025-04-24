@@ -39,10 +39,11 @@
         success = 'Transferencia realizada con éxito.'
         setTimeout(() => {
           closeModal()
-          goto('/wallet')
         }, 1000)
       }
     }
+
+    const modalProps = { mode, closeModal };
   </script>
   
 
@@ -51,12 +52,11 @@
         <div class="modal-content border-0 shadow-lg"
         in:fly={{ y: 200, duration: 300, easing: cubicOut }}
         out:fly={{ y: 200, duration: 300, easing: cubicIn }}
-        
-  
+
         > 
-        <ModalHeader {mode} {closeModal} />
-          <ModalBody {mode} {recipientEmail} {amount} {error} {success} />
-        <ModalFooter {mode} {closeModal} {sendTokens} />
+        <ModalHeader {...modalProps}  />
+          <ModalBody {...modalProps} {recipientEmail} {amount} {error} {success} />
+        <ModalFooter {...modalProps} {sendTokens} />
         </div>
       </div>
     </div>
