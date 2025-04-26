@@ -12,12 +12,16 @@
     let currentUser = null;
 
     onMount(async () => {
-  // Primero obtenemos el usuario
-  await getCurrentUser();
-  // Luego obtenemos el balance
-  if (currentUser) {
-    await fetchBalance();
-  }
+      console.log('Mounting Wallet component');
+
+      let { data: wallets, error } = await supabase.from('wallets').select('wallet_id')
+
+      console.log(wallets)
+
+      await getCurrentUser();
+    if (currentUser) {
+      await fetchBalance();
+    }
 })
 
 async function getCurrentUser() {

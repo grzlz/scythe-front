@@ -7,9 +7,7 @@
     import ModalBody from './ModalBody.svelte';
     import ModalFooter from './ModalFooter.svelte';
 
-    export let mode = 'enviar'
-    export let senderId
-    export let closeModal = () => {}
+    let { mode, senderId, closeModal } = $props()
 
     console.log(senderId)
   
