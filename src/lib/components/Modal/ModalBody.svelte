@@ -1,12 +1,32 @@
 <script>
+    import { supabase } from '$lib/supabase';
+    import { onMount } from 'svelte';
+
     let { mode, recipientUserName, amount, error, success } = $props();
+
+    let wallets = $state([]);
+
+    onMount(async () => {
+    const { data, error } = await supabase.from('wallets').select('wallet_id');
+    
+    if (error) {
+      console.error('Error fetching wallets:', error);
+    } else {
+      wallets = data ?? [];
+    }
+  });
 </script>
 
 <div class="modal-body">
     {#if mode === 'enviar'}
-      <div class="mb-3">
+    <div class="mb-3">
         <label class="form-label" for="wallet_id">¿A quién le quieres enviar?</label>
-        <input type="text" class="form-control" bind:value={recipientUserName} />
+        <select id="wallet_id" class="form-select" bind:value={recipientUserName}>
+          <option disabled selected value="">Selecciona una wallet</option>
+          {#each wallets as wallet}
+            <option value={wallet.wallet_id}>{wallet.wallet_id}</option>
+          {/each}
+        </select>
       </div>
       <div class="mb-3">
         <label class="form-label" for="scythes">¿Cuántas?</label>

@@ -7,7 +7,7 @@
     import ModalBody from './ModalBody.svelte';
     import ModalFooter from './ModalFooter.svelte';
 
-    let { mode, senderId, closeModal } = $props()
+    let { mode, senderId, closeModal, wallets } = $props()
 
     console.log(senderId)
   
@@ -53,7 +53,7 @@
 
         > 
         <ModalHeader {...modalProps}  />
-          <ModalBody {...modalProps} {recipientUserName} {amount} {error} {success} />
+          <ModalBody {...modalProps} {recipientUserName} {amount} {error} {success} {wallets} />
         <ModalFooter {...modalProps} {sendTokens} />
         </div>
       </div>

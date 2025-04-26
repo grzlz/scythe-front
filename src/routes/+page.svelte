@@ -10,6 +10,7 @@
     let showModal = false;
     let modalMode = '';
     let currentUser = null;
+    let wallets = [];
 
     onMount(async () => {
       console.log('Mounting Wallet component');
@@ -155,7 +156,7 @@ async function fetchBalance() {
 
     <!-- Modal -->
      {#if showModal}
-     <Modal mode={modalMode} senderId={1} closeModal={closeModal} />
+     <Modal mode={modalMode} senderId={1} closeModal={closeModal} {wallets} />
      {/if}
 
 
