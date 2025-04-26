@@ -2,7 +2,7 @@
     import { supabase } from '$lib/supabase';
     import { onMount } from 'svelte';
 
-    let { mode, recipientWalletId, amount, error, success } = $props();
+    let { mode, recipientWalletId = $bindable(''), amount = $bindable(0), error, success } = $props();
 
     let wallets = $state([]);
 

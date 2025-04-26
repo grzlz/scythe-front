@@ -1,6 +1,5 @@
 <script>
     import { supabase } from '$lib/supabase'
-    import { goto } from '$app/navigation'
     import { fly } from 'svelte/transition'
     import { onMount } from 'svelte'
     import { cubicOut, cubicIn } from 'svelte/easing';
@@ -11,11 +10,13 @@
     let { mode, senderId, closeModal } = $props()
 
   
-    let recipientWalletId = ''
-    let senderWalletId = ''
-    let amount = ''
-    let error = ''
-    let success = ''
+    let {
+      senderWalletId = '', 
+      recipientWalletId = '', 
+      amount = '', 
+      error = '', 
+      success = ''
+    } = $state();
 
     onMount(async () => {
       const { data, error } = await supabase.from('wallets').select('wallet_id').eq('user_id', senderId).single();
@@ -62,7 +63,7 @@
 
         > 
         <ModalHeader {...modalProps}  />
-          <ModalBody {...modalProps} {recipientWalletId} {amount} {error} {success}/>
+          <ModalBody {...modalProps} bind:recipientWalletId bind:amount {error} {success}/>
         <ModalFooter {...modalProps} {sendTokens} />
         </div>
       </div>
