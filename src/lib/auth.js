@@ -4,7 +4,7 @@ export function isPublicRoute(path) {
     const publicRoutes = [
       '/auth/login',
       '/auth/register',
-      '/'
+      '/about'
     ]
     
     return publicRoutes.some(route => path.startsWith(route))
