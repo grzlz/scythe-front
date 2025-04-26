@@ -19,18 +19,34 @@
   })
 
   async function getCurrentUser() {
-    const { data, error } = await supabase.auth.getUser();
-    if (error) {
-      console.error('Error obteniendo usuario:', error);
+    try {
+      const { data, error } = await supabase.auth.getUser();
+      
+      if (error) {
+        if (error.name === 'AuthSessionMissingError') {
+          console.log('No hay sesión de usuario activa');
+          // Intentar recuperar la sesión
+          const { data: sessionData } = await supabase.auth.getSession();
+          if (sessionData && sessionData.session) {
+            currentUser = sessionData.session.user;
+            return currentUser;
+          }
+        } else {
+          console.error('Error obteniendo usuario:', error);
+        }
+        return null;
+      }
+      
+      if (data && data.user) {
+        currentUser = data.user;
+        return data.user;
+      }
+      
+      return null;
+    } catch (e) {
+      console.error('Error inesperado:', e);
       return null;
     }
-    
-    if (data && data.user) {
-      currentUser = data.user;
-      return data.user;
-    }
-    
-    return null;
   }
 
   async function fetchBalance() {

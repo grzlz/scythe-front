@@ -10,7 +10,6 @@
 
     let { mode, senderId, closeModal } = $props()
 
-    console.log('Este es el sender id', senderId)
   
     let recipientWalletId = ''
     let senderWalletId = ''
