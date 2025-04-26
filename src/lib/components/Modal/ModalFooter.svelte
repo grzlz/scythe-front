@@ -1,5 +1,5 @@
 <script>
-    let {mode, closeModal, sendTokens} =$props()
+    let {mode, closeModal, sendTokens} = $props()
 </script>
 
 <div class="modal-footer">

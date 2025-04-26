@@ -2,33 +2,38 @@
     import { supabase } from '$lib/supabase'
     import { goto } from '$app/navigation'
     import { fly } from 'svelte/transition'
+    import { onMount } from 'svelte'
     import { cubicOut, cubicIn } from 'svelte/easing';
     import ModalHeader from './ModalHeader.svelte';
     import ModalBody from './ModalBody.svelte';
     import ModalFooter from './ModalFooter.svelte';
 
-    let { mode, senderId, closeModal, wallets } = $props()
+    let { mode, senderId, closeModal } = $props()
 
     console.log(senderId)
   
-    let recipientUserName = ''
+    let recipientWalletId = ''
+    let senderWalletId = ''
     let amount = ''
     let error = ''
     let success = ''
+
+    onMount(async () => {
+      const { data, error } = await supabase.from('wallets').select('wallet_id').eq('user_id', senderId).single();
+      senderWalletId = data?.wallet_id || '';
+  
+    })
   
     async function sendTokens() {
       error = ''
       success = ''
   
-      if (!recipientUserName || !amount || isNaN(parseFloat(amount))) {
-        error = 'Correo o cantidad inválidos.'
-        return
-      }
-  
-      const { error: rpcError } = await supabase.rpc('send_tokens', {
-        sender_id: senderId,
-        recipient_user_name: recipientUserName,
-        amount: parseFloat(amount)
+      const { error: rpcError } = await supabase.rpc('send_scythes', {
+        p_sender_wallet_id: senderWalletId,
+        p_recipient_wallet_id: recipientWalletId,
+        p_amount: parseFloat(amount),
+        p_user_id: senderId
+
       })
   
       if (rpcError) {
@@ -53,7 +58,7 @@
 
         > 
         <ModalHeader {...modalProps}  />
-          <ModalBody {...modalProps} {recipientUserName} {amount} {error} {success} {wallets} />
+          <ModalBody {...modalProps} {recipientWalletId} {amount} {error} {success}/>
         <ModalFooter {...modalProps} {sendTokens} />
         </div>
       </div>
