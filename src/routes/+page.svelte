@@ -10,60 +10,53 @@
     let showModal = false;
     let modalMode = '';
     let currentUser = null;
-    let wallets = [];
 
     onMount(async () => {
-      console.log('Mounting Wallet component');
-
-      let { data: wallets, error } = await supabase.from('wallets').select('wallet_id')
-
-      console.log(wallets)
-
       await getCurrentUser();
-    if (currentUser) {
-      await fetchBalance();
-    }
-})
+      if (currentUser) {
+        await fetchBalance();
+      }
+  })
 
-async function getCurrentUser() {
-  const { data, error } = await supabase.auth.getUser();
-  if (error) {
-    console.error('Error obteniendo usuario:', error);
+  async function getCurrentUser() {
+    const { data, error } = await supabase.auth.getUser();
+    if (error) {
+      console.error('Error obteniendo usuario:', error);
+      return null;
+    }
+    
+    if (data && data.user) {
+      currentUser = data.user;
+      return data.user;
+    }
+    
     return null;
   }
-  
-  if (data && data.user) {
-    currentUser = data.user;
-    return data.user;
-  }
-  
-  return null;
-}
 
-async function fetchBalance() {
-  if (!currentUser) {
-    console.error('No hay usuario autenticado');
-    balance = 0;
-    return;
-  }
-  
-  const { data, error } = await supabase
-    .from('wallets')
-    .select('balance')
-    .eq('user_id', currentUser.id)
-    .single();
+  async function fetchBalance() {
+    if (!currentUser) {
+      console.error('No hay usuario autenticado');
+      balance = 0;
+      return;
+    }
     
-  if (error) {
-    console.error('Error fetching balance:', error);
-    balance = 0; // fallback
-  } else if (data && data.balance != null) {
-    balance = data.balance;
-    checkBalance();
-  } else {
-    console.warn('No wallet row found for user, setting balance to 0');
-    balance = 0;
+    const { data, error } = await supabase
+      .from('wallets')
+      .select('balance')
+      .eq('user_id', currentUser.id)
+      .single();
+      
+    if (error) {
+      console.error('Error fetching balance:', error);
+      balance = 0; // fallback
+    } else if (data && data.balance != null) {
+      balance = data.balance;
+      checkBalance();
+    } else {
+      console.warn('No wallet row found for user, setting balance to 0');
+      balance = 0;
+    }
   }
-}
 
 
   function checkBalance() {
@@ -117,7 +110,6 @@ async function fetchBalance() {
 <div class="container">
   <div class="wallet-container">
 
-    <!-- Balance Section -->
     <div class="balance-section text-center mb-4 position-relative">
       <p class="balance-label">Scythes</p>
       <h1 class="balance-amount">{balance}</h1>
@@ -127,7 +119,6 @@ async function fetchBalance() {
       {/if}
     </div>
 
-    <!-- Airdrop Button -->
     <div class="text-center my-5">
       <button 
         class="btn btn-danger btn-lg d-flex align-items-center justify-content-center gap-2 w-100"
@@ -139,16 +130,13 @@ async function fetchBalance() {
       </button>
     </div>
 
-    <!-- Buttons Section -->
     <div class="buttons-container d-flex flex-wrap justify-content-center gap-3">
       <button class="btn btn-primary wallet-button" onclick={() => openModal('enviar')}>
         Enviar
       </button>
-    
       <button class="btn btn-success wallet-button" onclick={() => openModal('solicitar')}>
         Solicitar
       </button>
-    
       <button class="btn btn-info wallet-button" onclick={() => openModal('historial')}>
         Historial
       </button>
@@ -156,7 +144,7 @@ async function fetchBalance() {
 
     <!-- Modal -->
      {#if showModal}
-     <Modal mode={modalMode} senderId={1} closeModal={closeModal} {wallets} />
+     <Modal mode={modalMode} senderId={currentUser.id} closeModal={closeModal} />
      {/if}
 
 
