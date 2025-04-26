@@ -7,4 +7,4 @@
     {#if mode === 'enviar'}
       <button class="btn btn-primary" onclick={sendTokens}>Enviar</button>
     {/if}
-  </div>
+</div>

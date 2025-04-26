@@ -9,31 +9,56 @@
     let showBonus = false;
     let showModal = false;
     let modalMode = '';
+    let currentUser = null;
 
     onMount(async () => {
-        await fetchBalance()
-    })
+  // Primero obtenemos el usuario
+  await getCurrentUser();
+  // Luego obtenemos el balance
+  if (currentUser) {
+    await fetchBalance();
+  }
+})
 
+async function getCurrentUser() {
+  const { data, error } = await supabase.auth.getUser();
+  if (error) {
+    console.error('Error obteniendo usuario:', error);
+    return null;
+  }
+  
+  if (data && data.user) {
+    currentUser = data.user;
+    return data.user;
+  }
+  
+  return null;
+}
 
-  async function fetchBalance() {
-    const user = await supabase.auth.getUser()
-    const { data, error } = await supabase
+async function fetchBalance() {
+  if (!currentUser) {
+    console.error('No hay usuario autenticado');
+    balance = 0;
+    return;
+  }
+  
+  const { data, error } = await supabase
     .from('wallets')
     .select('balance')
-    .eq('user_id', user.data.user.id)
+    .eq('user_id', currentUser.id)
     .single();
-
-    if (error) {
-      console.error('Error fetching balance:', error);
-      balance = 0; // fallback
-    } else if (data && data.balance != null) {
-      balance = data.balance;
-      checkBalance();
-    } else {
-      console.warn('No wallet row found for user, setting balance to 0');
-      balance = 0;
-    }
+    
+  if (error) {
+    console.error('Error fetching balance:', error);
+    balance = 0; // fallback
+  } else if (data && data.balance != null) {
+    balance = data.balance;
+    checkBalance();
+  } else {
+    console.warn('No wallet row found for user, setting balance to 0');
+    balance = 0;
   }
+}
 
 
   function checkBalance() {

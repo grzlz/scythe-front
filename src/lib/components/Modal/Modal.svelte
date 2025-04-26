@@ -13,7 +13,7 @@
 
     console.log(senderId)
   
-    let recipientEmail = ''
+    let recipientUserName = ''
     let amount = ''
     let error = ''
     let success = ''
@@ -22,14 +22,14 @@
       error = ''
       success = ''
   
-      if (!recipientEmail || !amount || isNaN(parseFloat(amount))) {
+      if (!recipientUserName || !amount || isNaN(parseFloat(amount))) {
         error = 'Correo o cantidad inválidos.'
         return
       }
   
       const { error: rpcError } = await supabase.rpc('send_tokens', {
         sender_id: senderId,
-        recipient_email: recipientEmail,
+        recipient_user_name: recipientUserName,
         amount: parseFloat(amount)
       })
   
@@ -55,7 +55,7 @@
 
         > 
         <ModalHeader {...modalProps}  />
-          <ModalBody {...modalProps} {recipientEmail} {amount} {error} {success} />
+          <ModalBody {...modalProps} {recipientUserName} {amount} {error} {success} />
         <ModalFooter {...modalProps} {sendTokens} />
         </div>
       </div>
