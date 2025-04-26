@@ -2,38 +2,68 @@
     import confetti from 'canvas-confetti';
     import { onMount } from 'svelte';
     import { supabase } from '$lib/supabase';
-    import Modal from '$lib/components/Modal.svelte';
+    import Modal from '$lib/components/Modal/Modal.svelte';
 
     let balance = 0;
     let airdropClaimed = false;
     let showBonus = false;
     let showModal = false;
     let modalMode = '';
+    let currentUser = null;
+    let wallets = [];
 
     onMount(async () => {
-        await fetchBalance()
-    })
+      console.log('Mounting Wallet component');
 
+      let { data: wallets, error } = await supabase.from('wallets').select('wallet_id')
 
-  async function fetchBalance() {
-    const user = await supabase.auth.getUser()
-    const { data, error } = await supabase
+      console.log(wallets)
+
+      await getCurrentUser();
+    if (currentUser) {
+      await fetchBalance();
+    }
+})
+
+async function getCurrentUser() {
+  const { data, error } = await supabase.auth.getUser();
+  if (error) {
+    console.error('Error obteniendo usuario:', error);
+    return null;
+  }
+  
+  if (data && data.user) {
+    currentUser = data.user;
+    return data.user;
+  }
+  
+  return null;
+}
+
+async function fetchBalance() {
+  if (!currentUser) {
+    console.error('No hay usuario autenticado');
+    balance = 0;
+    return;
+  }
+  
+  const { data, error } = await supabase
     .from('wallets')
     .select('balance')
-    .eq('user_id', user.data.user.id)
+    .eq('user_id', currentUser.id)
     .single();
-
-    if (error) {
-      console.error('Error fetching balance:', error);
-      balance = 0; // fallback
-    } else if (data && data.balance != null) {
-      balance = data.balance;
-      checkBalance();
-    } else {
-      console.warn('No wallet row found for user, setting balance to 0');
-      balance = 0;
-    }
+    
+  if (error) {
+    console.error('Error fetching balance:', error);
+    balance = 0; // fallback
+  } else if (data && data.balance != null) {
+    balance = data.balance;
+    checkBalance();
+  } else {
+    console.warn('No wallet row found for user, setting balance to 0');
+    balance = 0;
   }
+}
 
 
   function checkBalance() {
@@ -102,7 +132,7 @@
       <button 
         class="btn btn-danger btn-lg d-flex align-items-center justify-content-center gap-2 w-100"
         disabled={airdropClaimed}
-        on:click={claimAirdrop}
+        onclick={claimAirdrop}
       >
         <span class="fs-4">★</span>
         {airdropClaimed ? '¡Airdrop recibido!' : 'Scythe Airdrop'}
@@ -111,56 +141,30 @@
 
     <!-- Buttons Section -->
     <div class="buttons-container d-flex flex-wrap justify-content-center gap-3">
-      <button class="btn btn-primary wallet-button" on:click={() => openModal('enviar')}>
+      <button class="btn btn-primary wallet-button" onclick={() => openModal('enviar')}>
         Enviar
       </button>
     
-      <button class="btn btn-success wallet-button" on:click={() => openModal('solicitar')}>
+      <button class="btn btn-success wallet-button" onclick={() => openModal('solicitar')}>
         Solicitar
       </button>
     
-      <button class="btn btn-info wallet-button" on:click={() => openModal('historial')}>
+      <button class="btn btn-info wallet-button" onclick={() => openModal('historial')}>
         Historial
       </button>
     </div>
 
     <!-- Modal -->
+     {#if showModal}
+     <Modal mode={modalMode} senderId={1} closeModal={closeModal} {wallets} />
+     {/if}
 
-    <Modal
-    senderId={1}
-    show={showModal}
-    mode={modalMode}
-    closeModal={closeModal}
-  />
 
 
   </div>
 </div>
   
 <style>
-  .modal-backdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0,0,0,0.5);
-    z-index: 10;
-  }
-
-  .custom-modal {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: white;
-    border-radius: 10px;
-    padding: 2rem;
-    z-index: 11;
-    text-align: center;
-    max-width: 90%;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-  }
 
   .wallet-container {
     padding: 2rem;
