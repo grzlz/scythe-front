@@ -10,7 +10,7 @@
 
     let { mode, senderId, closeModal } = $props()
 
-    console.log(senderId)
+    console.log('Este es el sender id', senderId)
   
     let recipientWalletId = ''
     let senderWalletId = ''
@@ -21,12 +21,17 @@
     onMount(async () => {
       const { data, error } = await supabase.from('wallets').select('wallet_id').eq('user_id', senderId).single();
       senderWalletId = data?.wallet_id || '';
+      console.log('Sender Wallet ID:', senderWalletId);
   
     })
   
     async function sendTokens() {
       error = ''
       success = ''
+      console.log('Recipient Wallet ID:', recipientWalletId);
+      console.log('Sender Wallet ID:', senderWalletId);
+      console.log('Amount:', amount);
+      console.log('Sender ID:', senderId);
   
       const { error: rpcError } = await supabase.rpc('send_scythes', {
         p_sender_wallet_id: senderWalletId,
