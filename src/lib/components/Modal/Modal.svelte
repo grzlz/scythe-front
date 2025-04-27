@@ -6,28 +6,15 @@
     import ModalHeader from './ModalHeader.svelte';
     import ModalBody from './ModalBody.svelte';
 
-    let { mode, senderId, closeModal, senderWalletId } = $props()
+    let { mode, senderId, closeModal, senderWalletId, wallets } = $props()
 
   
     let {
-      wallets = [],
       error = '', 
       success = ''
     } = $state();
 
-    onMount(async () => {
-      await fetchWallets();
-      console.log('Wallets:', wallets);
-    });
-    
-    async function fetchWallets() {
-      const { data, error } = await supabase.from('wallets').select('wallet_id');
-      if (error) {
-        console.error('Error fetching wallets:', error);
-      } else {
-        wallets = data ?? [];
-      }
-    }
+
     const modalProps = { mode, closeModal };
   </script>
   
