@@ -8,26 +8,29 @@
       airdropClaimed = false,
       showBonus = false,
       showModal = false,
-      modalMode = '',
       currentUser = null,
+      modalMode = '',
+      balance = 0,
       senderWalletId = '',
+      wallets = []
     } = $state();
 
-    let balance = 0;
-    let wallets = [];
 
     onMount(async () => {
-      await getCurrentUser();
+      currentUser = await getCurrentUser();
       console.log('Current User:', currentUser);
-      if (currentUser) {
+      
+      if (currentUser?.id) {
         await fetchBalance();
         const { data, error } = await supabase.from('wallets').select('wallet_id').eq('user_id', currentUser.id).single();
         senderWalletId = data?.wallet_id || '';
         console.log('Sender Wallet ID:', senderWalletId);
 
         await fetchWallets();
+      } else {
+        console.error('No hay usuario autenticado');
       }
-  })
+    })
 
 
 
