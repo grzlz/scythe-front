@@ -4,16 +4,15 @@
     import { supabase } from '$lib/supabase';
     import Modal from '$lib/components/Modal/Modal.svelte';
 
-    let { 
-      airdropClaimed = false,
-      showBonus = false,
-      showModal = false,
-      currentUser = null,
-      modalMode = '',
-      balance = 0,
-      senderWalletId = '',
-      wallets = []
-    } = $state();
+
+    let airdropClaimed = $state(false)
+    let showBonus = $state(false)
+    let showModal = $state(false)
+    let currentUser = $state(null)
+    let modalMode = $state('')
+    let balance = $state(0)
+    let senderWalletId = $state('')
+    let wallets = $state([])
 
 
     onMount(async () => {
