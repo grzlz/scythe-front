@@ -3,10 +3,8 @@
 
     let { mode, senderWalletId, error, success, closeModal, senderId, wallets } = $props();
 
-    let {
-      recipientWalletId = '',
-      amount = ''
-    } = $state();
+    let recipientWalletId = $state('')
+    let amount = $state(0) 
 
 
 
