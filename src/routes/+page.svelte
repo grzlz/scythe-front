@@ -2,7 +2,7 @@
     import confetti from 'canvas-confetti';
     import { onMount } from 'svelte';
     import { supabase } from '$lib/supabase';
-    import Modal from '$lib/components/Modal/Modal.svelte';
+    import Modal from '$lib/components/Modal/Modal.server.svelte';
 
     let { balance = 0,
           airdropClaimed = false,
