@@ -6,7 +6,7 @@
     import ModalHeader from './ModalHeader.svelte';
     import ModalBody from './ModalBody.svelte';
     
-    let error = $state('')}
+    let error = $state('')
     let success = $state('') 
 
     let { mode, senderId, closeModal, senderWalletId, wallets } = $props()
