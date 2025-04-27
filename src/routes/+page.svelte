@@ -4,13 +4,13 @@
     import { supabase } from '$lib/supabase';
     import Modal from '$lib/components/Modal/Modal.svelte';
 
-    let balance = 0;
-    let airdropClaimed = false;
-    let showBonus = false;
-    let showModal = false;
-    let modalMode = '';
-    let currentUser = null;
-    let senderWalletId = '';
+    let { balance = 0,
+          airdropClaimed = false,
+          showBonus = false,
+          showModal = false,
+          modalMode = '',
+          currentUser = null,
+          senderWalletId = '' } = $props();
 
     onMount(async () => {
       await getCurrentUser();
