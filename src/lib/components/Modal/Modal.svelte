@@ -63,7 +63,7 @@
 
         > 
         <ModalHeader {...modalProps}  />
-          <ModalBody {...modalProps} bind:recipientWalletId bind:amount {error} {success}/>
+          <ModalBody {...modalProps} bind:recipientWalletId={recipientWalletId} bind:amount={amount} {error} {success}/>
         <ModalFooter {...modalProps} {sendTokens} />
         </div>
       </div>
