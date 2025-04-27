@@ -13,7 +13,7 @@
       currentUser = null,
       senderWalletId = '',
       wallets = []
-    } = $props();
+    } = $state();
 
     onMount(async () => {
       await getCurrentUser();
@@ -23,12 +23,21 @@
         const { data, error } = await supabase.from('wallets').select('wallet_id').eq('user_id', currentUser.id).single();
         senderWalletId = data?.wallet_id || '';
         console.log('Sender Wallet ID:', senderWalletId);
+
+        await fetchWallets();
       }
   })
 
 
 
-  
+  async function fetchWallets() {
+      const { data, error } = await supabase.from('wallets').select('wallet_id');
+      if (error) {
+        console.error('Error fetching wallets:', error);
+      } else {
+        wallets = data ?? [];
+      }
+    }
 
   async function getCurrentUser() {
     try {
@@ -173,7 +182,7 @@
 
     <!-- Modal -->
      {#if showModal}
-     <Modal mode={modalMode} senderId={"4fc62ca0-4cac-452d-8aff-ba3561a5670c"} senderWalletId={"minos-sistema943"} closeModal={closeModal} />
+     <Modal mode={modalMode} senderId={"4fc62ca0-4cac-452d-8aff-ba3561a5670c"} {wallets} senderWalletId={"minos-sistema943"} closeModal={closeModal} />
      {/if}
 
 
