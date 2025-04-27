@@ -10,9 +10,21 @@
 
   
     let {
+      wallets = [],
       error = '', 
       success = ''
     } = $state();
+
+    onMount(async () => {
+    const { data, error } = await supabase.from('wallets').select('wallet_id');
+    
+    if (error) {
+      console.error('Error fetching wallets:', error);
+    } else {
+      wallets = data ?? [];
+    }
+  });
+
 
 
 
@@ -28,7 +40,7 @@
 
         > 
         <ModalHeader {...modalProps}  />
-        <ModalBody {...modalProps} {error} {success} {senderWalletId} {senderId} />
+        <ModalBody {...modalProps} {error} {success} {senderWalletId} {senderId} {wallets} />
         </div>
       </div>
     </div>
