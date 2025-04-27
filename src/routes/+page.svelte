@@ -13,6 +13,7 @@
 
     onMount(async () => {
       await getCurrentUser();
+      console.log('Current User:', currentUser);
       if (currentUser) {
         await fetchBalance();
       }
