@@ -17,7 +17,7 @@
       console.log('Current User:', currentUser);
       if (currentUser) {
         await fetchBalance();
-        const { data, error } = await supabase.from('wallets').select('wallet_id').eq('user_id', senderId).single();
+        const { data, error } = await supabase.from('wallets').select('wallet_id').eq('user_id', currentUser.id).single();
         senderWalletId = data?.wallet_id || '';
         console.log('Sender Wallet ID:', senderWalletId);
       }
@@ -169,7 +169,7 @@
 
     <!-- Modal -->
      {#if showModal}
-     <Modal mode={modalMode} senderId={currentUser.id} {senderWalletId} closeModal={closeModal} />
+     <Modal mode={modalMode} senderId={currentUser?.id} {senderWalletId} closeModal={closeModal} />
      {/if}
 
 
