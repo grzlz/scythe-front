@@ -2,23 +2,13 @@
     import { supabase } from '$lib/supabase';
     import { onMount } from 'svelte';
 
-    let { mode, senderWalletId, error, success, closeModal, senderId } = $props();
+    let { mode, senderWalletId, error, success, closeModal, senderId, wallets } = $props();
 
     let {
-      wallets = [],
       recipientWalletId = '',
       amount = ''
     } = $state();
 
-    onMount(async () => {
-    const { data, error } = await supabase.from('wallets').select('wallet_id');
-    
-    if (error) {
-      console.error('Error fetching wallets:', error);
-    } else {
-      wallets = data ?? [];
-    }
-  });
 
 
   async function sendTokens() {
