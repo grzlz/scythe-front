@@ -88,7 +88,8 @@
       console.error('Error fetching balance:', error);
       balance = 0; // fallback
     } else if (data && data.balance != null) {
-      balance = data.balance;
+      balance = data.balance ?? 0;
+      console.log('Balance fetched:', balance);
       checkBalance();
     } else {
       console.warn('No wallet row found for user, setting balance to 0');
