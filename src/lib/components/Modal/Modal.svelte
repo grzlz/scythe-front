@@ -5,15 +5,12 @@
     import { cubicOut, cubicIn } from 'svelte/easing';
     import ModalHeader from './ModalHeader.svelte';
     import ModalBody from './ModalBody.svelte';
-    import ModalFooter from './ModalFooter.svelte';
 
     let { mode, senderId, closeModal } = $props()
 
   
     let {
       senderWalletId = '', 
-      recipientWalletId = '', 
-      amount = '', 
       error = '', 
       success = ''
     } = $state();
@@ -25,31 +22,6 @@
   
     })
   
-    async function sendTokens() {
-      error = ''
-      success = ''
-      console.log('Recipient Wallet ID:', recipientWalletId);
-      console.log('Sender Wallet ID:', senderWalletId);
-      console.log('Amount:', amount);
-      console.log('Sender ID:', senderId);
-  
-      const { error: rpcError } = await supabase.rpc('send_scythes', {
-        p_sender_wallet_id: senderWalletId,
-        p_recipient_wallet_id: recipientWalletId,
-        p_amount: parseFloat(amount),
-        p_user_id: senderId
-
-      })
-  
-      if (rpcError) {
-        error = rpcError.message
-      } else {
-        success = 'Transferencia realizada con éxito.'
-        setTimeout(() => {
-          closeModal()
-        }, 1000)
-      }
-    }
 
     const modalProps = { mode, closeModal };
   </script>
@@ -63,8 +35,7 @@
 
         > 
         <ModalHeader {...modalProps}  />
-          <ModalBody {...modalProps} bind:recipientWalletId={recipientWalletId} bind:amount={amount} {error} {success}/>
-        <ModalFooter {...modalProps} {sendTokens} />
+        <ModalBody {...modalProps} {error} {success} {senderWalletId} {senderId} />
         </div>
       </div>
     </div>
