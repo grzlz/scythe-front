@@ -2,15 +2,18 @@
     import confetti from 'canvas-confetti';
     import { onMount } from 'svelte';
     import { supabase } from '$lib/supabase';
-    import Modal from '$lib/components/Modal/Modal.server.svelte';
+    import Modal from '$lib/components/Modal/Modal.svelte';
 
-    let { balance = 0,
-          airdropClaimed = false,
-          showBonus = false,
-          showModal = false,
-          modalMode = '',
-          currentUser = null,
-          senderWalletId = '' } = $props();
+    let { 
+      balance = 0,
+      airdropClaimed = false,
+      showBonus = false,
+      showModal = false,
+      modalMode = '',
+      currentUser = null,
+      senderWalletId = '',
+      wallets = []
+    } = $props();
 
     onMount(async () => {
       await getCurrentUser();
@@ -57,6 +60,7 @@
       return null;
     }
   }
+
 
   async function fetchBalance() {
     if (!currentUser) {

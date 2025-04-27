@@ -1,6 +1,5 @@
 <script>
     import { supabase } from '$lib/supabase';
-    import { onMount } from 'svelte';
 
     let { mode, senderWalletId, error, success, closeModal, senderId, wallets } = $props();
 

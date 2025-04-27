@@ -3,8 +3,8 @@
     import { fly } from 'svelte/transition'
     import { onMount } from 'svelte'
     import { cubicOut, cubicIn } from 'svelte/easing';
-    import ModalHeader from './ModalHeader.server.svelte';
-    import ModalBody from './ModalBody.server.svelte';
+    import ModalHeader from './ModalHeader.svelte';
+    import ModalBody from './ModalBody.svelte';
 
     let { mode, senderId, closeModal, senderWalletId } = $props()
 
@@ -16,18 +16,18 @@
     } = $state();
 
     onMount(async () => {
-    const { data, error } = await supabase.from('wallets').select('wallet_id');
+      await fetchWallets();
+      console.log('Wallets:', wallets);
+    });
     
-    if (error) {
-      console.error('Error fetching wallets:', error);
-    } else {
-      wallets = data ?? [];
+    async function fetchWallets() {
+      const { data, error } = await supabase.from('wallets').select('wallet_id');
+      if (error) {
+        console.error('Error fetching wallets:', error);
+      } else {
+        wallets = data ?? [];
+      }
     }
-  });
-
-
-
-
     const modalProps = { mode, closeModal };
   </script>
   
