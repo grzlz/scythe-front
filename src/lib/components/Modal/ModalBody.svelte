@@ -2,9 +2,13 @@
     import { supabase } from '$lib/supabase';
     import { onMount } from 'svelte';
 
-    let { mode, recipientWalletId = $bindable(), amount = $bindable(), error, success } = $props();
+    let { mode, senderWalletId, error, success, closeModal, senderId } = $props();
 
-    let wallets = $state([]);
+    let {
+      wallets = [],
+      recipientWalletId = '',
+      amount = ''
+    } = $state();
 
     onMount(async () => {
     const { data, error } = await supabase.from('wallets').select('wallet_id');
@@ -15,6 +19,34 @@
       wallets = data ?? [];
     }
   });
+
+
+  async function sendTokens() {
+      error = ''
+      success = ''
+      console.log('Recipient Wallet ID:', recipientWalletId);
+      console.log('Sender Wallet ID:', senderWalletId);
+      console.log('Amount:', amount);
+      console.log('Sender ID:', senderId);
+  
+      const { error: rpcError } = await supabase.rpc('send_scythes', {
+        p_sender_wallet_id: senderWalletId,
+        p_recipient_wallet_id: recipientWalletId,
+        p_amount: parseFloat(amount),
+        p_user_id: senderId
+
+      })
+  
+      if (rpcError) {
+        error = rpcError.message
+      } else {
+        success = 'Transferencia realizada con éxito.'
+        setTimeout(() => {
+          closeModal()
+        }, 1000)
+      }
+    }
+
 </script>
 
 <div class="modal-body">
@@ -41,4 +73,11 @@
     {:else if mode === 'historial'}
       <p class="text-muted">Aquí podrás ver el historial de transacciones.</p>
     {/if}
+</div>
+
+<div class="modal-footer">
+  <button class="btn btn-secondary" onclick={closeModal}>Cerrar</button>
+  {#if mode === 'enviar'}
+    <button class="btn btn-primary" onclick={sendTokens}>Enviar</button>
+  {/if}
 </div>
