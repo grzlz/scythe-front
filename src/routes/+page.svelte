@@ -5,15 +5,16 @@
     import Modal from '$lib/components/Modal/Modal.svelte';
 
     let { 
-      balance = 0,
       airdropClaimed = false,
       showBonus = false,
       showModal = false,
       modalMode = '',
       currentUser = null,
       senderWalletId = '',
-      wallets = []
     } = $state();
+
+    let balance = 0;
+    let wallets = [];
 
     onMount(async () => {
       await getCurrentUser();
