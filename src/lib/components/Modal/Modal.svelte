@@ -6,22 +6,15 @@
     import ModalHeader from './ModalHeader.svelte';
     import ModalBody from './ModalBody.svelte';
 
-    let { mode, senderId, closeModal } = $props()
+    let { mode, senderId, closeModal, senderWalletId } = $props()
 
   
     let {
-      senderWalletId = '', 
       error = '', 
       success = ''
     } = $state();
 
-    onMount(async () => {
-      const { data, error } = await supabase.from('wallets').select('wallet_id').eq('user_id', senderId).single();
-      senderWalletId = data?.wallet_id || '';
-      console.log('Sender Wallet ID:', senderWalletId);
-  
-    })
-  
+
 
     const modalProps = { mode, closeModal };
   </script>
