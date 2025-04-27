@@ -182,7 +182,7 @@
 
     <!-- Modal -->
      {#if showModal}
-     <Modal mode={modalMode} senderId={currentUser?.id} {wallets} {senderWalletId} closeModal={closeModal} />
+     <Modal mode={modalMode} senderId={currentUser.id} {wallets} {senderWalletId} closeModal={closeModal} />
      {/if}
 
 
