@@ -10,14 +10,22 @@
     let showModal = false;
     let modalMode = '';
     let currentUser = null;
+    let senderWalletId = '';
 
     onMount(async () => {
       await getCurrentUser();
       console.log('Current User:', currentUser);
       if (currentUser) {
         await fetchBalance();
+        const { data, error } = await supabase.from('wallets').select('wallet_id').eq('user_id', senderId).single();
+        senderWalletId = data?.wallet_id || '';
+        console.log('Sender Wallet ID:', senderWalletId);
       }
   })
+
+
+
+  
 
   async function getCurrentUser() {
     try {
@@ -161,7 +169,7 @@
 
     <!-- Modal -->
      {#if showModal}
-     <Modal mode={modalMode} senderId={currentUser.id} closeModal={closeModal} />
+     <Modal mode={modalMode} senderId={currentUser.id} {senderWalletId} closeModal={closeModal} />
      {/if}
 
 
