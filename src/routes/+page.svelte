@@ -83,17 +83,13 @@
       .select('balance')
       .eq('user_id', currentUser.id)
       .single();
-      
-    if (error) {
+
+    if(!data) {
       console.error('Error fetching balance:', error);
-      balance = 0; // fallback
-    } else if (data && data.balance != null) {
-      balance = data?.balance || 0;
-      console.log('Balance fetched:', balance);
-      checkBalance();
-    } else {
-      console.warn('No wallet row found for user, setting balance to 0');
       balance = 0;
+    } else {
+      balance = data.balance ?? 0;
+      checkBalance();
     }
   }
 
@@ -183,7 +179,7 @@
 
     <!-- Modal -->
      {#if showModal}
-     <Modal mode={modalMode} senderId={"4fc62ca0-4cac-452d-8aff-ba3561a5670c"} {wallets} senderWalletId={"minos-sistema943"} closeModal={closeModal} />
+     <Modal mode={modalMode} senderId={currentUser?.id} {wallets} {senderWalletId} closeModal={closeModal} />
      {/if}
 
 
