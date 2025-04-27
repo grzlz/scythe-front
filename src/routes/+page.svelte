@@ -88,7 +88,7 @@
       console.error('Error fetching balance:', error);
       balance = 0; // fallback
     } else if (data && data.balance != null) {
-      balance = data.balance ?? 0;
+      balance = data?.balance || 0;
       console.log('Balance fetched:', balance);
       checkBalance();
     } else {
