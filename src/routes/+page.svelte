@@ -15,6 +15,7 @@
     let wallets = $state([])
 
 
+
     onMount(async () => {
       currentUser = await getCurrentUser();
       console.log('Current User:', currentUser);
@@ -182,7 +183,7 @@
 
     <!-- Modal -->
      {#if showModal}
-     <Modal mode={modalMode} senderId={currentUser.id} {wallets} {senderWalletId} closeModal={closeModal} />
+     <Modal mode={modalMode} senderId={currentUser.id} {wallets} {senderWalletId} closeModal={closeModal} {fetchBalance} />
      {/if}
 
 

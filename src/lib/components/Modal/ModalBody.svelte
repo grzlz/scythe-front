@@ -1,7 +1,7 @@
 <script>
     import { supabase } from '$lib/supabase';
 
-    let { mode, senderWalletId, error, success, closeModal, senderId, wallets } = $props();
+    let { mode, senderWalletId, error, success, closeModal, senderId, wallets, fetchBalance } = $props();
 
     let recipientWalletId = $state('')
     let amount = $state(0) 
@@ -28,6 +28,7 @@
         error = rpcError.message
       } else {
         success = 'Transferencia realizada con éxito.'
+        await fetchBalance()
         setTimeout(() => {
           closeModal()
         }, 1000)

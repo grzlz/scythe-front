@@ -9,7 +9,7 @@
     let error = $state('')
     let success = $state('') 
 
-    let { mode, senderId, closeModal, senderWalletId, wallets } = $props()
+    let { mode, senderId, closeModal, senderWalletId, wallets, fetchBalance } = $props()
 
   
 
@@ -25,7 +25,7 @@
 
         > 
         <ModalHeader {...modalProps}  />
-        <ModalBody {...modalProps} {error} {success} {senderWalletId} {senderId} {wallets} />
+        <ModalBody {...modalProps} {error} {success} {senderWalletId} {senderId} {wallets} {fetchBalance} />
         </div>
       </div>
     </div>
