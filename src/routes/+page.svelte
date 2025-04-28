@@ -14,6 +14,9 @@
     let senderWalletId = $state('')
     let wallets = $state([])
 
+    let subscription;
+
+
 
 
     onMount(async () => {
@@ -22,6 +25,7 @@
       
       if (currentUser?.id) {
         await fetchBalance();
+        subscribeToWalletChanges()
         const { data, error } = await supabase.from('wallets').select('wallet_id').eq('user_id', currentUser.id).single();
         senderWalletId = data?.wallet_id || '';
         console.log('Sender Wallet ID:', senderWalletId);
@@ -31,6 +35,21 @@
         console.error('No hay usuario autenticado');
       }
     })
+
+    function subscribeToWalletChanges() {
+      subscription = supabase.channel('wallet_changes')
+        .on('postgres_changes', {
+          event: 'UPDATE',
+          schema: 'public',
+          table: 'wallets',
+          filter: `user_id=eq.${currentUser.id}`
+        }, async (payload) => {
+          console.log('Wallet updated:', payload);
+          await fetchBalance();
+        })
+        .subscribe(); 
+    }
+
 
 
 
