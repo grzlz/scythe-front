@@ -1,7 +1,7 @@
 <script>
     import { supabase } from '$lib/supabase';
 
-    let { mode, senderWalletId, error, success, closeModal, senderId, wallets } = $props();
+    let { mode, senderWalletId, error, success, closeModal, senderId, wallets, fetchBalance } = $props();
 
     let recipientWalletId = $state('')
     let amount = $state(0) 
