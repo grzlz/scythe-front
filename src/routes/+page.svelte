@@ -138,7 +138,7 @@
       return;
     }
 
-    const { error: airdropError } = await supabase.rpc('claim_airdrop', {
+    const { error: airdropError } = await supabase.rpc('claim_giveaway', {
       p_user_id: userData.user.id
     });
 
