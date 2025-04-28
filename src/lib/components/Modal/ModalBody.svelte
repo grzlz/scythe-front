@@ -28,6 +28,7 @@
         error = rpcError.message
       } else {
         success = 'Transferencia realizada con éxito.'
+        await fetchBalance()
         setTimeout(() => {
           closeModal()
         }, 1000)
