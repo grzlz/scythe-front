@@ -5,7 +5,7 @@
     import Modal from '$lib/components/Modal/Modal.svelte';
 
 
-    let airdropClaimed = $state(false)
+    let giveawayClaimed = $state(false)
     let showBonus = $state(false)
     let showModal = $state(false)
     let currentUser = $state(null)
@@ -106,15 +106,14 @@
       balance = data.balance ?? 0;
     }
 
-    // Nuevo: cuántos airdrops ha hecho
-    const { count: airdropCount, error: countError } = await supabase
+    const { count: giveawayCount, error: countError } = await supabase
       .from('transactions')
       .select('*', { count: 'exact', head: true })
       .eq('user_id', currentUser.id)
-      .eq('type', 'airdrop');
+      .eq('type', 'giveaway');
 
-    if (!countError && airdropCount !== null) {
-      airdropClaimed = airdropCount >= 10;  // Si ya tiene 10 o más, disable botón
+    if (!countError && giveawayCount !== null) {
+      giveawayClaimed = giveawayCount >= 10;  // Si ya tiene 10 o más, disable botón
     }
   }
   
@@ -128,8 +127,8 @@
     modalMode = ''
   }
   
-  async function claimAirdrop() {
-    if (airdropClaimed) return; 
+  async function claimGiveaway() {
+    if (giveawayClaimed) return; 
 
     const { data: userData, error: userError } = await supabase.auth.getUser();
 
@@ -138,17 +137,16 @@
       return;
     }
 
-    const { error: airdropError } = await supabase.rpc('claim_giveaway', {
+    const { error: giveawayError } = await supabase.rpc('claim_giveaway', {
       p_user_id: userData.user.id
     });
 
-    if (airdropError) {
-      console.error('Error claiming airdrop:', airdropError.message);
+    if (giveawayError) {
+      console.error('Error claiming giveaway:', giveawayError.message);
       return;
     }
 
-    await fetchBalance(); // Esta función también debe contar cuántos airdrops tiene ahora
-
+    await fetchBalance();
     
     setTimeout(() => {
       showBonus = false;
@@ -185,11 +183,11 @@
     <div class="text-center my-5">
       <button 
         class="btn btn-danger btn-lg d-flex align-items-center justify-content-center gap-2 w-100"
-        disabled={airdropClaimed}
-        onclick={claimAirdrop}
+        disabled={giveawayClaimed}
+        onclick={claimGiveaway}
       >
         <span class="fs-4">★</span>
-        {airdropClaimed ? 'Giveaway recibido!' : 'Scythe Giveaway!'}
+        {giveawayClaimed ? 'Giveaway recibido!' : 'Scythe Giveaway!'}
       </button>
     </div>
 
