@@ -13,11 +13,7 @@
     let balance = $state(0)
     let senderWalletId = $state('')
     let wallets = $state([])
-
     let subscription;
-
-
-
 
     onMount(async () => {
       currentUser = await getCurrentUser();
@@ -49,9 +45,6 @@
         })
         .subscribe(); 
     }
-
-
-
 
   async function fetchWallets() {
       const { data, error } = await supabase.from('wallets').select('wallet_id');
@@ -93,7 +86,6 @@
     }
   }
 
-
   async function fetchBalance() {
     if (!currentUser) {
       console.error('No hay usuario autenticado');
@@ -112,64 +104,72 @@
       balance = 0;
     } else {
       balance = data.balance ?? 0;
-      checkBalance();
+    }
+
+    // Nuevo: cuántos airdrops ha hecho
+    const { count: airdropCount, error: countError } = await supabase
+      .from('transactions')
+      .select('*', { count: 'exact', head: true })
+      .eq('user_id', currentUser.id)
+      .eq('type', 'airdrop');
+
+    if (!countError && airdropCount !== null) {
+      airdropClaimed = airdropCount >= 10;  // Si ya tiene 10 o más, disable botón
     }
   }
-
-
-  function checkBalance() {
-    if (balance > 100) {
-      airdropClaimed = true;
-    }
-  }
-
+  
   function openModal(mode) {
     modalMode = mode
     showModal = true
   }
-
+  
   function closeModal() {
     showModal = false
     modalMode = ''
   }
-
+  
   async function claimAirdrop() {
-    if (airdropClaimed) return;
-    const user = await supabase.auth.getUser()
+    if (airdropClaimed) return; 
 
-    const { error } = await supabase
-    .from('transactions')
-    .insert([{ user_id: user.data.user.id, type: 'airdrop', amount: 10 }])
+    const { data: userData, error: userError } = await supabase.auth.getUser();
 
-    if (error) {
-      console.error('Error claiming airdrop:', error)
-    } else {
-      await fetchBalance()  // 🔁 Aquí refrescas
-      if (balance > 100) {
-        airdropClaimed = true;
-      } else {
-        airdropClaimed = false;
-      }
+    if (userError || !userData?.user) {
+      console.error('Error fetching user:', userError);
+      return;
     }
 
+    const { error: airdropError } = await supabase.rpc('claim_airdrop', {
+      p_user_id: userData.user.id
+    });
+
+    if (airdropError) {
+      console.error('Error claiming airdrop:', airdropError.message);
+      return;
+    }
+
+    await fetchBalance(); // Esta función también debe contar cuántos airdrops tiene ahora
+
+    
     setTimeout(() => {
       showBonus = false;
     }, 1200); // hide after animation
     
     confetti({
-    particleCount: 200,
-    spread: 120,
-    origin: { y: 0.6 }
+      particleCount: 200,
+      spread: 120,
+      origin: { y: 0.6 }
     });
   }
-
+  
+  
+  
 </script>
   
 <div class="container">
   <div class="wallet-container">
 
     <div class="text-center mb-4">
-      <p class="mb-1 text-muted">Tu Wallet ID</p>
+      <p class="mb-1 text-muted">Scythe ID:</p>
       <h5 class="fw-bold">{senderWalletId}</h5>
     </div>
 
@@ -189,7 +189,7 @@
         onclick={claimAirdrop}
       >
         <span class="fs-4">★</span>
-        {airdropClaimed ? '¡Airdrop recibido!' : 'Scythe Airdrop'}
+        {airdropClaimed ? 'Giveaway recibido!' : 'Scythe Giveaway!'}
       </button>
     </div>
 
