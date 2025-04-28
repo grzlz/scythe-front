@@ -168,6 +168,11 @@
 <div class="container">
   <div class="wallet-container">
 
+    <div class="text-center mb-4">
+      <p class="mb-1 text-muted">Tu Wallet ID</p>
+      <h5 class="fw-bold">{senderWalletId}</h5>
+    </div>
+
     <div class="balance-section text-center mb-4 position-relative">
       <p class="balance-label">Scythes</p>
       <h1 class="balance-amount">{balance}</h1>
