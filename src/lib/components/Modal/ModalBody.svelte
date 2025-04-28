@@ -4,7 +4,7 @@
     let { mode, senderWalletId, error, success, closeModal, senderId, wallets, fetchBalance } = $props();
 
     let recipientWalletId = $state('')
-    let amount = $state(0) 
+    let amount = $state(null) 
 
 
 
@@ -35,6 +35,14 @@
       }
     }
 
+  function increaseAmount() {
+    amount = (Number(amount) || 0) + 1;
+  }
+
+  function decreaseAmount() {
+    amount = Math.max(1, (Number(amount) || 1) - 1);
+  }
+
 </script>
 
 <div class="modal-body">
@@ -42,7 +50,7 @@
     <div class="mb-3">
         <label class="form-label" for="wallet_id">¿A quién le quieres enviar?</label>
         <select id="wallet_id" class="form-select" bind:value={recipientWalletId}>
-          <option disabled selected value="">Selecciona una wallet</option>
+          <option disabled selected value="">Selecciona un Scythe ID</option>
           {#each wallets as wallet}
             <option value={wallet.wallet_id}>{wallet.wallet_id}</option>
           {/each}
@@ -50,9 +58,29 @@
       </div>
       <div class="mb-3">
         <label class="form-label" for="scythes">¿Cuántas?</label>
-        <input type="number" class="form-control" bind:value={amount} />
-      </div>
-    {#if error}<div class="alert alert-danger mt-2">{error}</div>{/if}
+        <div class="input-group">
+          <button 
+            class="btn btn-outline-secondary" 
+            type="button" 
+            onclick={decreaseAmount}
+          >-</button>
+      
+          <input 
+            id="scythes"
+            type="number"
+            class="form-control text-center fs-4"
+            placeholder="0"
+            min="1"
+            bind:value={amount}
+          />
+      
+          <button 
+            class="btn btn-outline-secondary" 
+            type="button" 
+            onclick={increaseAmount}
+          >+</button>
+        </div>
+      </div>    {#if error}<div class="alert alert-danger mt-2">{error}</div>{/if}
     {#if success}<div class="alert alert-success mt-2">{success}</div>{/if}
     
     {:else if mode === 'solicitar'}
