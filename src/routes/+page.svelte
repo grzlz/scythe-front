@@ -1,6 +1,7 @@
 <script>
     import confetti from 'canvas-confetti';
     import { onMount } from 'svelte';
+    import { goto } from '$app/navigation';
     import { supabase } from '$lib/supabase';
     import Modal from '$lib/components/Modal/Modal.svelte';
 
@@ -199,7 +200,7 @@
       <button class="btn btn-success wallet-button" onclick={() => openModal('solicitar')}>
         Solicitar
       </button>
-      <button class="btn btn-info wallet-button" onclick={() => openModal('historial')}>
+      <button class="btn btn-info wallet-button" onclick={() => goto('/historial')}>
         Historial
       </button>
     </div>
@@ -208,9 +209,6 @@
      {#if showModal}
      <Modal mode={modalMode} senderId={currentUser.id} {wallets} {senderWalletId} closeModal={closeModal} {fetchBalance} />
      {/if}
-
-
-
   </div>
 </div>
   
