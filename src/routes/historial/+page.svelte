@@ -2,7 +2,6 @@
     import { onMount } from 'svelte';
     import Chart from 'chart.js/auto';
     import { supabase } from '$lib/supabase';
-  
     let { transactions, governance } = $props();
   
     let stats = $state({
@@ -57,7 +56,7 @@
             data: {
                 labels: walletLabels,
                 datasets: [{
-                    label: 'Distribución de scythes',
+                    label: 'Cantidad de scythes:',
                     data: walletBalances,
                     backgroundColor: walletLabels.map((_, idx) => `hsl(${idx * 50}, 70%, 60%)`),
                     borderWidth: 2
@@ -74,40 +73,49 @@
                 }
             }
         });
-  
-      const barCtx = document.getElementById('holdersChart');
-      barChart = new Chart(barCtx, {
-        type: 'bar',
-        data: {
-          labels: ['Holder A', 'Holder B', 'Holder C', 'Holder D', 'Holder E', 'You', 'Holder F', 'Holder G', 'Holder H', 'Holder I', 'Holder J'],
-          datasets: [{
-            label: 'Scythes Held',
-            data: [3000, 2600, 2200, 1800, 1600, stats.personalBalance, 1200, 1000, 800, 600, 400],
-            backgroundColor: function(context) {
-              return context.dataIndex === 5 ? 'rgba(0, 123, 255, 0.7)' : 'rgba(153, 102, 255, 0.7)';
+
+        const sorted = [...walletList].sort((a, b) => b.balance - a.balance);
+        const userIndex = sorted.findIndex(w => w.wallet_id === YOUR_WALLET_ID);
+        const start = Math.max(0, userIndex - 5);
+        const end = userIndex + 6;
+        const nearby = sorted.slice(start, end);
+
+        const barLabels = nearby.map(w => w.wallet_id === YOUR_WALLET_ID ? 'You' : w.wallet_id.slice(0, 8) + '...');
+        const barData = nearby.map(w => Number(w.balance));
+            
+        const barCtx = document.getElementById('holdersChart');
+        barChart = new Chart(barCtx, {
+            type: 'bar',
+            data: {
+            labels: barLabels,
+            datasets: [{
+                label: 'Scythes:',
+                data: barData,
+                backgroundColor: barLabels.map(label =>
+                    label === 'You' ? 'rgba(0, 123, 255, 0.7)' : 'rgba(153, 102, 255, 0.7)'
+                ),
+                borderWidth: 1
+            }]
             },
-            borderWidth: 1
-          }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: { 
-                    display: false 
-                }
-            },
-            scales: {
-                y: {
-                    ticks: { color: '#333' },
-                    beginAtZero: true
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { 
+                        display: false 
+                    }
                 },
-                x: {
-                    ticks: { color: '#333' }
+                scales: {
+                    y: {
+                        ticks: { color: '#333' },
+                        beginAtZero: true
+                    },
+                    x: {
+                        ticks: { color: '#333' }
+                    }
+                    }
                 }
-                }
-            }
+            });
         });
-    });
 
     async function fetchBalance() {
         const { data: userData , error: walletError } = await supabase.auth.getUser();
