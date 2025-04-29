@@ -149,7 +149,7 @@
     await fetchBalance();
     
     setTimeout(() => {
-      showBonus = false;
+      showBonus = true;
     }, 1200); // hide after animation
     
     confetti({
