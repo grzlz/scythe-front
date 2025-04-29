@@ -2,7 +2,7 @@
     import { onMount } from 'svelte';
     import Chart from 'chart.js/auto';
     import { supabase } from '$lib/supabase';
-    let { transactions, governance } = $props();
+    let { governance } = $props();
   
     let stats = $state({
       totalHolders: 0,
@@ -16,12 +16,8 @@
 
     let userWalletId = '';
   
-    transactions = [
-      { date: '2025-04-25', type: 'Mint', amount: 100, actor: 'dev1', details: 'Completed task #101' },
-      { date: '2025-04-26', type: 'Transfer', amount: 50, actor: 'dev2 -> dev3', details: 'Peer bonus' },
-      { date: '2025-04-26', type: 'Burn', amount: 10, actor: 'system', details: 'Penalty' },
-      { date: '2025-04-27', type: 'Governance', amount: 500, actor: 'dev4', details: 'Voted on proposal #5' }
-    ];
+    let transactions = $state([]) 
+    
   
     governance = [
       { title: 'Proposal #5: Increase Mint Rate', result: 'Passed', participation: '72%' },
@@ -38,6 +34,15 @@
       if (filterType === 'All') return transactions;
       return transactions.filter(t => t.type === filterType);
     }
+
+    async function fetchTransactions(limit = 20) {
+        const { data: txData } = await supabase
+            .from('transactions')
+            .select('created_at, type, amount, sender_wallet_id, recipient_wallet_id')
+            .order('created_at', { ascending: false })
+            .limit(limit);
+        transactions = txData ?? [];
+    }
   
     onMount(async() => {
         const { data } = await supabase.from('scythe_stats').select('*').single();
@@ -47,9 +52,10 @@
         stats.avgScythesPerDev = Math.round(data.avg_scythes_per_dev);
 
         const balanceResult = await fetchBalanceAndWalletId();
-
         stats.personalBalance = balanceResult.balance;
         userWalletId = balanceResult.walletId;
+
+        await fetchTransactions();
 
         const { data: walletList } = await supabase.from('wallets').select('wallet_id, balance').gt('balance', 0);
         
@@ -225,21 +231,21 @@
             <table class="table table-hover align-middle">
               <thead>
                 <tr>
-                  <th>Date</th>
-                  <th>Type</th>
-                  <th>Amount</th>
-                  <th>Actor(s)</th>
-                  <th>Details</th>
+                  <th>Fecha</th>
+                  <th>Tipo</th>
+                  <th>Enviado por</th>
+                  <th>Recibido por</th>
+                  <th>Cantidad</th>
                 </tr>
               </thead>
               <tbody>
                 {#each filteredTransactions() as tx}
                   <tr>
-                    <td>{tx.date}</td>
+                    <td>{new Date(tx.created_at).toLocaleString()}</td>
                     <td>{tx.type}</td>
+                    <td>{tx.sender_wallet_id || '-'}</td>
+                    <td>{tx.recipient_wallet_id || '-'}</td>
                     <td>{tx.amount}</td>
-                    <td>{tx.actor}</td>
-                    <td>{tx.details}</td>
                   </tr>
                 {/each}
               </tbody>
