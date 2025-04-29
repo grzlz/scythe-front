@@ -13,6 +13,8 @@
       votingParticipationRate: '68%',
       personalBalance: 0
     });
+
+    let userWalletId = '';
   
     transactions = [
       { date: '2025-04-25', type: 'Mint', amount: 100, actor: 'dev1', details: 'Completed task #101' },
@@ -43,7 +45,11 @@
         stats.totalMinted = data.total_minted;
         stats.circulatingSupply = data.circulating_supply;
         stats.avgScythesPerDev = Math.round(data.avg_scythes_per_dev);
-        stats.personalBalance = await fetchBalance();
+
+        const balanceResult = await fetchBalanceAndWalletId();
+
+        stats.personalBalance = balanceResult.balance;
+        userWalletId = balanceResult.walletId;
 
         const { data: walletList } = await supabase.from('wallets').select('wallet_id, balance').gt('balance', 0);
         
@@ -75,12 +81,12 @@
         });
 
         const sorted = [...walletList].sort((a, b) => b.balance - a.balance);
-        const userIndex = sorted.findIndex(w => w.wallet_id === YOUR_WALLET_ID);
+        const userIndex = sorted.findIndex(w => w.wallet_id === userWalletId);
         const start = Math.max(0, userIndex - 5);
         const end = userIndex + 6;
         const nearby = sorted.slice(start, end);
 
-        const barLabels = nearby.map(w => w.wallet_id === YOUR_WALLET_ID ? 'You' : w.wallet_id.slice(0, 8) + '...');
+        const barLabels = nearby.map(w => w.wallet_id === userWalletId ? 'You' : w.wallet_id.slice(0, 8) + '...');
         const barData = nearby.map(w => Number(w.balance));
             
         const barCtx = document.getElementById('holdersChart');
@@ -117,7 +123,7 @@
             });
         });
 
-    async function fetchBalance() {
+    async function fetchBalanceAndWalletId() {
         const { data: userData , error: walletError } = await supabase.auth.getUser();
 
         let user = userData?.user;
@@ -125,7 +131,7 @@
         
         const { data: walletData, error } = await supabase
             .from('wallets')
-            .select('balance')
+            .select('balance, wallet_id')
             .eq('user_id', user.id)
             .single();
 
@@ -133,9 +139,12 @@
             console.error('Error fetching balance:', error);
             stats.personalBalance = 0;
         } else {
-            return walletData.balance ?? 0;
+            return {
+                balance: walletData.balance ?? 0,
+                walletId: walletData.wallet_id ?? ''
+            } 
         }
-}
+    }
   </script>
   
   <div class="container mt-4">
