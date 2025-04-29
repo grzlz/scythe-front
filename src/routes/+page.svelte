@@ -113,7 +113,7 @@
       .eq('type', 'giveaway');
 
     if (!countError && giveawayCount !== null) {
-      giveawayClaimed = giveawayCount >= 10;  // Si ya tiene 10 o más, disable botón
+      giveawayClaimed = giveawayCount >= 3
     }
   }
   
@@ -148,9 +148,10 @@
 
     await fetchBalance();
     
+    showBonus = true;
     setTimeout(() => {
-      showBonus = true;
-    }, 1200); // hide after animation
+      showBonus = false;
+    }, 1000); // hide after animation
     
     confetti({
       particleCount: 200,
