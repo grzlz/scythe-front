@@ -39,43 +39,41 @@
     }
   
     onMount(async() => {
-                
         const { data } = await supabase.from('scythe_stats').select('*').single();
         stats.totalHolders = data.total_holders;
         stats.totalMinted = data.total_minted;
         stats.circulatingSupply = data.circulating_supply;
         stats.avgScythesPerDev = Math.round(data.avg_scythes_per_dev);
-
         stats.personalBalance = await fetchBalance();
+
+        const { data: walletList } = await supabase.from('wallets').select('wallet_id, balance');
         
         const donutCtx = document.getElementById('tokenChart');
+        const walletLabels = walletList.map(wallet => wallet.wallet_id);
+        const walletBalances = walletList.map(wallet => wallet.balance);
+
         donutChart = new Chart(donutCtx, {
             type: 'doughnut',
             data: {
-            labels: ['Top Holders', 'Teams', 'Validators', 'Others'],
-            datasets: [{
-                label: 'Token Distribution',
-                data: [45, 25, 15, 15],
-                backgroundColor: [
-                'rgba(54, 162, 235, 0.7)',
-                'rgba(255, 206, 86, 0.7)',
-                'rgba(75, 192, 192, 0.7)',
-                'rgba(153, 102, 255, 0.7)'
-                ],
-                borderWidth: 2
-            }]
+                labels: walletLabels,
+                datasets: [{
+                    label: 'Distribución de scythes',
+                    data: walletBalances,
+                    backgroundColor: walletLabels.map((_, idx) => `hsl(${idx * 50}, 70%, 60%)`),
+                    borderWidth: 2
+                }]
             },
             options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                labels: {
-                    color: '#333'
-                }
+                responsive: true,
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: '#333'
+                        }
+                    }
                 }
             }
-            }
-      });
+        });
   
       const barCtx = document.getElementById('holdersChart');
       barChart = new Chart(barCtx, {
@@ -92,21 +90,23 @@
           }]
         },
         options: {
-          responsive: true,
-          plugins: {
-            legend: { display: false }
-          },
-          scales: {
-            y: {
-              ticks: { color: '#333' },
-              beginAtZero: true
+            responsive: true,
+            plugins: {
+                legend: { 
+                    display: false 
+                }
             },
-            x: {
-              ticks: { color: '#333' }
+            scales: {
+                y: {
+                    ticks: { color: '#333' },
+                    beginAtZero: true
+                },
+                x: {
+                    ticks: { color: '#333' }
+                }
+                }
             }
-          }
-        }
-      });
+        });
     });
 
     async function fetchBalance() {
@@ -127,9 +127,7 @@
         } else {
             return walletData.balance ?? 0;
         }
-
-
-  }
+}
   </script>
   
   <div class="container mt-4">
