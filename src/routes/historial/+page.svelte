@@ -46,7 +46,7 @@
         stats.avgScythesPerDev = Math.round(data.avg_scythes_per_dev);
         stats.personalBalance = await fetchBalance();
 
-        const { data: walletList } = await supabase.from('wallets').select('wallet_id, balance');
+        const { data: walletList } = await supabase.from('wallets').select('wallet_id, balance').gt('balance', 0);
         
         const donutCtx = document.getElementById('tokenChart');
         const walletLabels = walletList.map(wallet => wallet.wallet_id);
