@@ -221,7 +221,7 @@
             <h5>Detailed Transaction History</h5>
             <div class="d-flex mb-3">
               <select class="form-select w-auto" bind:value={filterType}>
-                <option>Fecha</option>
+                <option>All</option>
                 <option>Mint</option>
                 <option>Transfer</option>
                 <option>Burn</option>
