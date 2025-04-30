@@ -165,7 +165,7 @@
       <div class="col-md-6">
         <div class="card glassy p-4 h-100">
           <div class="card-body d-flex flex-column justify-content-center align-items-center">
-            <h5>Token Distribution</h5>
+            <h5>Distribución</h5>
             <canvas id="tokenChart" style="max-width: 100%; height: 250px;"></canvas>
           </div>
         </div>
@@ -173,10 +173,10 @@
       <div class="col-md-6">
         <div class="card glassy p-4 h-100">
           <div class="card-body text-center">
-            <h5>Your Balance</h5>
+            <h5>Tus scythes</h5>
             <h1 class="text-primary">{balancePercentage}%</h1>
             <p class="lead">{stats.personalBalance} Scythes</p>
-            <h5 class="mt-4">Nearby Holders</h5>
+            <h5 class="mt-4">Holders cercanos a ti</h5>
             <canvas id="holdersChart" style="max-width: 100%; height: 250px;"></canvas>
           </div>
         </div>
@@ -243,7 +243,7 @@
                   <tr>
                     <td>{new Date(tx.created_at).toLocaleString()}</td>
                     <td>{tx.type}</td>
-                    <td>{tx.sender_wallet_id || '-'}</td>
+                    <td>{tx.sender_wallet_id ?? (tx.type === 'giveaway' ? 'Sistema' : '-')}</td>
                     <td>{tx.recipient_wallet_id || '-'}</td>
                     <td>{tx.amount}</td>
                   </tr>
