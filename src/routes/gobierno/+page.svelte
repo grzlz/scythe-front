@@ -22,7 +22,7 @@
       <div class="col-md-3">
         <div class="card glassy p-3">
           <div class="card-body">
-            <h5>Total Propuestas</h5>
+            <h5>Propuestas</h5>
             <h2>{stats.total}</h2>
           </div>
         </div>
