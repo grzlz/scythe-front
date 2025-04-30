@@ -155,10 +155,10 @@
   
   <div class="container mt-4">
     <div class="row text-center g-4">
-      <div class="col-md-3"><div class="card glassy p-3"><div class="card-body"><h5>Total Holders</h5><h2>{stats.totalHolders}</h2></div></div></div>
-      <div class="col-md-3"><div class="card glassy p-3"><div class="card-body"><h5>Total Minted</h5><h2>{stats.totalMinted} ⚔️</h2></div></div></div>
-      <div class="col-md-3"><div class="card glassy p-3"><div class="card-body"><h5>Total Burned</h5><h2>{stats.totalBurned} 🔥</h2></div></div></div>
-      <div class="col-md-3"><div class="card glassy p-3"><div class="card-body"><h5>Circulating</h5><h2>{stats.circulatingSupply} 🌀</h2></div></div></div>
+      <div class="col-md-3"><div class="card glassy p-3"><div class="card-body"><h5>Usuarios</h5><h2>{stats.totalHolders}</h2></div></div></div>
+      <div class="col-md-3"><div class="card glassy p-3"><div class="card-body"><h5>Monedas acuñadas</h5><h2>{stats.totalMinted} ⚔️</h2></div></div></div>
+      <div class="col-md-3"><div class="card glassy p-3"><div class="card-body"><h5>Monedas quemadas</h5><h2>{stats.totalBurned} 🔥</h2></div></div></div>
+      <div class="col-md-3"><div class="card glassy p-3"><div class="card-body"><h5>En circulación</h5><h2>{stats.circulatingSupply} 🌀</h2></div></div></div>
     </div>
   
     <div class="row my-5 g-4">
@@ -175,7 +175,7 @@
           <div class="card-body text-center">
             <h5>Tus scythes</h5>
             <h1 class="text-primary">{balancePercentage}%</h1>
-            <p class="lead">{stats.personalBalance} Scythes</p>
+            <p class="lead">{stats.personalBalance} scythes</p>
             <h5 class="mt-4">Holders cercanos a ti</h5>
             <canvas id="holdersChart" style="max-width: 100%; height: 250px;"></canvas>
           </div>
