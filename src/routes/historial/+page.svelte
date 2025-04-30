@@ -186,12 +186,12 @@
     <div class="row text-center g-4">
       <div class="col-md-6">
         <div class="card glassy p-3"><div class="card-body">
-          <h5>Avg Scythes/Dev</h5><h2>{stats.avgScythesPerDev}</h2>
+          <h5>Holder promedio</h5><h2>{stats.avgScythesPerDev} scythes</h2>
         </div></div>
       </div>
       <div class="col-md-6">
         <div class="card glassy p-3"><div class="card-body">
-          <h5>Voting Participation</h5><h2>{stats.votingParticipationRate}</h2>
+          <h5>Porcentaje de participación</h5><h2>{stats.votingParticipationRate}</h2>
         </div></div>
       </div>
     </div>
@@ -200,7 +200,7 @@
       <div class="col-12">
         <div class="card glassy p-4">
           <div class="card-body">
-            <h5>Recent Governance Actions</h5>
+            <h5>Iniciativas recientes</h5>
             <ul class="list-group list-group-flush">
               {#each governance as action}
                 <li class="list-group-item glassy d-flex justify-content-between align-items-center">
@@ -218,7 +218,7 @@
       <div class="col-12">
         <div class="card glassy p-4">
           <div class="card-body">
-            <h5>Detailed Transaction History</h5>
+            <h5>Historial de transacciones</h5>
             <div class="d-flex mb-3">
               <select class="form-select w-auto" bind:value={filterType}>
                 <option>All</option>

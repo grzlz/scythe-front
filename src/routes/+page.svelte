@@ -201,7 +201,13 @@
         Solicitar
       </button>
       <button class="btn btn-info wallet-button" onclick={() => goto('/historial')}>
-        Historial
+        Estadísticas
+      </button>
+    </div>
+
+    <div class="text-center my-5">
+      <button class="btn btn btn-secondary btn-lg d-flex align-items-center justify-content-center gap-2 w-100" onclick={() => goto('/gobierno')}>
+        Gobierno
       </button>
     </div>
 
@@ -280,7 +286,6 @@
     width: 100%;
     padding: 1rem;
     font-size: 1.2rem;
-    text-transform: uppercase;
     letter-spacing: 1px;
     border: none;
     border-radius: 10px;
