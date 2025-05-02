@@ -213,47 +213,48 @@
         </div>
       </div>
     </div>
-  
     <div class="row mb-5">
-      <div class="col-12">
-        <div class="card glassy p-4">
-          <div class="card-body">
-            <h5>Historial de transacciones</h5>
-            <div class="d-flex mb-3">
-              <select class="form-select w-auto" bind:value={filterType}>
-                <option>All</option>
-                <option>Mint</option>
-                <option>Transfer</option>
-                <option>Burn</option>
-                <option>Governance</option>
-              </select>
+        <div class="col-12">
+          <div class="card glassy p-4">
+            <div class="card-body">
+              <h5>Historial de transacciones</h5>
+              <div class="d-flex flex-column flex-sm-row mb-3">
+                <select class="form-select w-100 w-sm-auto" bind:value={filterType}>
+                  <option>All</option>
+                  <option>Mint</option>
+                  <option>Transfer</option>
+                  <option>Burn</option>
+                  <option>Governance</option>
+                </select>
+              </div>
+              <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                  <thead>
+                    <tr>
+                      <th>Fecha</th>
+                      <th>Tipo</th>
+                      <th>Enviado por</th>
+                      <th>Recibido por</th>
+                      <th>Cantidad</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {#each filteredTransactions() as tx}
+                      <tr>
+                        <td>{new Date(tx.created_at).toLocaleString()}</td>
+                        <td>{tx.type}</td>
+                        <td>{tx.sender_wallet_id ?? (tx.type === 'giveaway' ? 'Sistema' : '-')}</td>
+                        <td>{tx.recipient_wallet_id || '-'}</td>
+                        <td>{tx.amount}</td>
+                      </tr>
+                    {/each}
+                  </tbody>
+                </table>
+              </div>
             </div>
-            <table class="table table-hover align-middle">
-              <thead>
-                <tr>
-                  <th>Fecha</th>
-                  <th>Tipo</th>
-                  <th>Enviado por</th>
-                  <th>Recibido por</th>
-                  <th>Cantidad</th>
-                </tr>
-              </thead>
-              <tbody>
-                {#each filteredTransactions() as tx}
-                  <tr>
-                    <td>{new Date(tx.created_at).toLocaleString()}</td>
-                    <td>{tx.type}</td>
-                    <td>{tx.sender_wallet_id ?? (tx.type === 'giveaway' ? 'Sistema' : '-')}</td>
-                    <td>{tx.recipient_wallet_id || '-'}</td>
-                    <td>{tx.amount}</td>
-                  </tr>
-                {/each}
-              </tbody>
-            </table>
           </div>
         </div>
-      </div>
-    </div>
+      </div>      
   </div>
   
   <style>
