@@ -5,11 +5,11 @@
   
     let proposals = $state([]);
   
-    let stats = $state({
-      total: proposals.length,
-      approved: proposals.filter(p => p.status === 'Aprobada').length,
-      rejected: proposals.filter(p => p.status === 'Rechazada').length,
-      active: proposals.filter(p => p.status === 'Activa').length
+    let stats = $derived({
+        total: proposals.length,
+        approved: proposals.filter(p => p.status === 'Aprobada').length,
+        rejected: proposals.filter(p => p.status === 'Rechazada').length,
+        active: proposals.filter(p => p.status === 'Activa').length
     });
 
     let showCreateModal = $state(false);
