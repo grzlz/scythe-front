@@ -52,6 +52,7 @@
         const { data } = await supabase.from('scythe_stats').select('*').single();
         stats.totalHolders = data.total_holders;
         stats.totalMinted = data.total_minted;
+        stats.totalBurned = data.total_minted - data.circulating_supply;
         stats.circulatingSupply = data.circulating_supply;
         stats.avgScythesPerDev = Math.round(data.avg_scythes_per_dev);
 
