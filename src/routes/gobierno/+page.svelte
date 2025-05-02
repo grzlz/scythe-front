@@ -16,6 +16,23 @@
 
 
     onMount(async () => {
+        await fetchProposals();
+
+        const channel = supabase
+            .channel('proposals-changes')
+            .on('postgres_changes', {
+            event: '*',
+            schema: 'public',
+            table: 'proposals'
+            }, payload => {
+            console.log('📡 Cambio detectado:', payload);
+            fetchProposals(); // re-fetch proposals after any insert/update/delete
+            })
+            .subscribe();
+    });
+
+
+  async function fetchProposals() {
     const { data: proposalData, error } = await supabase
       .from('proposals')
       .select('*')
@@ -27,7 +44,7 @@
     } else {
       proposals = proposalData;
     }
-  });
+  }
   </script>
 
 
@@ -70,13 +87,15 @@
   
     <div class="card glassy p-4 mt-5">
       <div class="card-body">
-        <h5>Últimas Propuestas</h5>
+        <h5>Propuestas recientes</h5>
         <table class="table table-hover align-middle">
           <thead>
             <tr>
               <th>ID</th>
               <th>Título</th>
               <th>Estado</th>
+              <th>Votos a favor</th>
+              <th>Votos en contra</th>
               <th>Fecha</th>
             </tr>
           </thead>
@@ -86,7 +105,9 @@
                 <td>{p.id}</td>
                 <td>{p.title}</td>
                 <td>{p.status}</td>
-                <td>{new Date(p.created_at).toLocaleString()}</td>
+                <td>{p.votes_for}</td>
+                <td>{p.votes_against}</td>
+                <td>{new Date(p.created_at).toLocaleDateString()}</td>
               </tr>
             {/each}
           </tbody>
