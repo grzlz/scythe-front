@@ -85,9 +85,7 @@
     
     {:else if mode === 'solicitar'}
       <p class="text-muted">Esta función estará disponible próximamente.</p>
-    
-    {:else if mode === 'historial'}
-      <p class="text-muted">Aquí podrás ver el historial de transacciones.</p>
+
     {/if}
 </div>
 
