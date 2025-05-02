@@ -1,21 +1,36 @@
 <script>
     import { onMount } from 'svelte';
+    import { supabase } from '$lib/supabase';
+    import SendModal from '$lib/components/SendModal/SendModal.svelte';
   
-    let proposals = $state([
-      { id: 1, title: 'Mejorar sistema de votación', status: 'passed', created_at: '2025-04-28T10:00:00Z' },
-      { id: 2, title: 'Agregar niveles de recompensa', status: 'failed', created_at: '2025-04-27T15:00:00Z' },
-      { id: 3, title: 'Expandir acceso a nuevos devs', status: 'active', created_at: '2025-04-26T18:30:00Z' },
-      { id: 4, title: 'Reducir tokens por bug', status: 'passed', created_at: '2025-04-25T09:45:00Z' },
-      { id: 5, title: 'Aumentar frecuencia de reuniones', status: 'active', created_at: '2025-04-24T11:20:00Z' }
-    ]);
+    let proposals = $state([]);
   
     let stats = $state({
       total: proposals.length,
-      approved: proposals.filter(p => p.status === 'passed').length,
-      rejected: proposals.filter(p => p.status === 'failed').length,
-      active: proposals.filter(p => p.status === 'active').length
+      approved: proposals.filter(p => p.status === 'Aprobada').length,
+      rejected: proposals.filter(p => p.status === 'Rechazada').length,
+      active: proposals.filter(p => p.status === 'Activa').length
     });
+
+    let showCreateModal = $state(false);
+
+
+    onMount(async () => {
+    const { data: proposalData, error } = await supabase
+      .from('proposals')
+      .select('*')
+      .order('created_at', { ascending: false })
+      .limit(5);
+
+    if (error) {
+      console.error('Error fetching proposals:', error);
+    } else {
+      proposals = proposalData;
+    }
+  });
   </script>
+
+
   
   <div class="container mt-5">
     <div class="row text-center g-4">
@@ -77,13 +92,18 @@
           </tbody>
         </table>
       </div>
+      
     </div>
-  
+    
     <div class="text-end mt-4">
-      <button class="btn btn-primary btn-lg d-flex align-items-center justify-content-center gap-2 w-100">Proponer Iniciativa</button>
+        <button class="btn btn-primary btn-lg d-flex align-items-center justify-content-center gap-2 w-100"  onclick={() => showCreateModal = true}>Proponer iniciativa</button>
+        <button class="mt-2 btn btn-dark btn-lg d-flex align-items-center justify-content-center gap-2 w-100">Votar</button>
     </div>
-  </div>
-  
+    {#if showCreateModal}
+        <SendModal show={showCreateModal} onClose={() => showCreateModal = false} />
+    {/if}
+</div>
+
   <style>
     .glassy {
       background: rgba(255, 255, 255, 0.15);
