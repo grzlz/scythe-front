@@ -227,7 +227,9 @@
                   <option>Governance</option>
                 </select>
               </div>
-              <div class="table-responsive">
+      
+              <!-- Vista de tabla para desktop -->
+              <div class="table-responsive d-none d-md-block">
                 <table class="table table-hover align-middle">
                   <thead>
                     <tr>
@@ -241,7 +243,7 @@
                   <tbody>
                     {#each filteredTransactions() as tx}
                       <tr>
-                        <td>{new Date(tx.created_at).toLocaleString()}</td>
+                        <td>{new Date(tx.created_at).toLocaleDateString()}</td>
                         <td>{tx.type}</td>
                         <td>{tx.sender_wallet_id ?? (tx.type === 'giveaway' ? 'Sistema' : '-')}</td>
                         <td>{tx.recipient_wallet_id || '-'}</td>
@@ -251,10 +253,26 @@
                   </tbody>
                 </table>
               </div>
+      
+              <!-- Vista en tarjetas para mobile -->
+              <div class="d-md-none">
+                {#each filteredTransactions() as tx}
+                  <div class="card mb-3">
+                    <div class="card-body">
+                      <div><strong>Fecha:</strong> {new Date(tx.created_at).toLocaleDateString()}</div>
+                      <div><strong>Tipo:</strong> {tx.type}</div>
+                      <div><strong>Enviado por:</strong> {tx.sender_wallet_id ?? (tx.type === 'giveaway' ? 'Sistema' : '-')}</div>
+                      <div><strong>Recibido por:</strong> {tx.recipient_wallet_id || '-'}</div>
+                      <div><strong>Cantidad:</strong> {tx.amount}</div>
+                    </div>
+                  </div>
+                {/each}
+              </div>
+              
             </div>
           </div>
         </div>
-      </div>      
+      </div>
   </div>
   
   <style>
