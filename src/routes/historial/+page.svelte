@@ -21,6 +21,10 @@
   
     governance = [
       { title: 'Proposal #5: Increase Mint Rate', result: 'Passed', participation: '72%' },
+      { title: 'Proposal #4: New Reward Tier', result: 'Failed', participation: '60%' },
+      { title: 'Proposal #5: Increase Mint Rate', result: 'Passed', participation: '72%' },
+      { title: 'Proposal #4: New Reward Tier', result: 'Failed', participation: '60%' },
+      { title: 'Proposal #5: Increase Mint Rate', result: 'Passed', participation: '72%' },
       { title: 'Proposal #4: New Reward Tier', result: 'Failed', participation: '60%' }
     ];
   
@@ -196,23 +200,27 @@
       </div>
     </div>
   
+    <!-- Hacer un carrusel aquí con las 4 iniciativas más recientes-->
     <div class="row my-5">
-      <div class="col-12">
-        <div class="card glassy p-4">
-          <div class="card-body">
-            <h5>Iniciativas recientes</h5>
-            <ul class="list-group list-group-flush">
-              {#each governance as action}
-                <li class="list-group-item glassy d-flex justify-content-between align-items-center">
-                  {action.title}
-                  <span class="badge bg-primary rounded-pill">{action.result} ({action.participation})</span>
-                </li>
-              {/each}
-            </ul>
+        <div class="col-12">
+          <div class="card glassy p-4">
+            <div class="card-body">
+              <h5>Iniciativas recientes</h5>
+              <div class="overflow-auto" style="max-height: 300px; scroll-behavior: smooth;">
+                <ul class="list-group list-group-flush">
+                  {#each governance as action}
+                    <li class="list-group-item glassy d-flex justify-content-between align-items-center mb-2 rounded shadow-sm">
+                      {action.title}
+                      <span class="badge bg-primary rounded-pill">{action.result} ({action.participation})</span>
+                    </li>
+                  {/each}
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+      
     <div class="row mb-5">
         <div class="col-12">
           <div class="card glassy p-4">
