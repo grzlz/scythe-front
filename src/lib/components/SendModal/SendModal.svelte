@@ -1,9 +1,9 @@
 <script>
     import { supabase } from '$lib/supabase';// adjust to your setup
-    let { onClose } = $props();
     import { fly } from 'svelte/transition'
     import { cubicOut, cubicIn } from 'svelte/easing';
-  
+    
+    let { onClose } = $props();
     let proposalTitle = $state('');
     let proposalDesc = $state('');
     let proposalBurn = $state(1);
