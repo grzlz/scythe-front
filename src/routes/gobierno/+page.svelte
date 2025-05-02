@@ -86,35 +86,56 @@
     </div>
   
     <div class="card glassy p-4 mt-5">
-      <div class="card-body">
-        <h5>Propuestas recientes</h5>
-        <table class="table table-hover align-middle">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Título</th>
-              <th>Estado</th>
-              <th>Votos a favor</th>
-              <th>Votos en contra</th>
-              <th>Fecha</th>
-            </tr>
-          </thead>
-          <tbody>
+        <div class="card-body">
+          <h5>Propuestas recientes</h5>
+      
+          <!-- Vista tabla para desktop -->
+          <div class="table-responsive d-none d-md-block">
+            <table class="table table-hover align-middle">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Título</th>
+                  <th>Estado</th>
+                  <th>Votos a favor</th>
+                  <th>Votos en contra</th>
+                  <th>Fecha</th>
+                </tr>
+              </thead>
+              <tbody>
+                {#each proposals as p}
+                  <tr>
+                    <td>{p.id}</td>
+                    <td>{p.title}</td>
+                    <td>{p.status}</td>
+                    <td>{p.votes_for}</td>
+                    <td>{p.votes_against}</td>
+                    <td>{new Date(p.created_at).toLocaleDateString()}</td>
+                  </tr>
+                {/each}
+              </tbody>
+            </table>
+          </div>
+      
+          <!-- Vista tarjetas para mobile -->
+          <div class="d-md-none">
             {#each proposals as p}
-              <tr>
-                <td>{p.id}</td>
-                <td>{p.title}</td>
-                <td>{p.status}</td>
-                <td>{p.votes_for}</td>
-                <td>{p.votes_against}</td>
-                <td>{new Date(p.created_at).toLocaleDateString()}</td>
-              </tr>
+              <div class="card mb-3">
+                <div class="card-body">
+                  <div><strong>ID:</strong> {p.id}</div>
+                  <div><strong>Título:</strong> {p.title}</div>
+                  <div><strong>Estado:</strong> {p.status}</div>
+                  <div><strong>Votos a favor:</strong> {p.votes_for}</div>
+                  <div><strong>Votos en contra:</strong> {p.votes_against}</div>
+                  <div><strong>Fecha:</strong> {new Date(p.created_at).toLocaleDateString()}</div>
+                </div>
+              </div>
             {/each}
-          </tbody>
-        </table>
+          </div>
+          
+        </div>
       </div>
       
-    </div>
     
     <div class="text-end mt-4">
         <button class="btn btn-primary btn-lg d-flex align-items-center justify-content-center gap-2 w-100"  onclick={() => showCreateModal = true}>Proponer iniciativa</button>
