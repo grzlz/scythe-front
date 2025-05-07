@@ -1,9 +1,22 @@
 <script>
     import { onMount } from 'svelte';
     import { supabase } from '$lib/supabase';
-    import SendModal from '$lib/components/SendModal/SendModal.svelte';
+    import ProposalModal from '$lib/components/ProposalModal/ProposalModal.svelte';
+    import ProposalDetailsModal from '$lib/components/ProposalDetailsModal/ProposalDetailsModal.svelte';
   
     let proposals = $state([]);
+    let selectedProposal = $state(null);
+    let showDetailsModal = $state(false);
+
+    function openProposalDetails(proposal) {
+        selectedProposal = proposal;
+        showDetailsModal = true;
+    }
+
+    function closeDetailsModal() {
+        showDetailsModal = false;
+        selectedProposal = null;
+    }
   
     let stats = $derived({
         total: proposals.length,
@@ -25,8 +38,7 @@
             schema: 'public',
             table: 'proposals'
             }, payload => {
-            console.log('📡 Cambio detectado:', payload);
-            fetchProposals(); // re-fetch proposals after any insert/update/delete
+            fetchProposals();
             })
             .subscribe();
     });
@@ -104,7 +116,7 @@
               </thead>
               <tbody>
                 {#each proposals as p}
-                  <tr>
+                  <tr onclick={() => openProposalDetails(p)} style="cursor: pointer;">
                     <td>{p.id}</td>
                     <td>{p.title}</td>
                     <td>{p.status}</td>
@@ -132,17 +144,19 @@
               </div>
             {/each}
           </div>
-          
         </div>
       </div>
-      
+    
+    {#if showDetailsModal}
+	    <ProposalDetailsModal proposal={selectedProposal} onClose={closeDetailsModal} />
+    {/if}
     
     <div class="text-end mt-4">
         <button class="btn btn-primary btn-lg d-flex align-items-center justify-content-center gap-2 w-100"  onclick={() => showCreateModal = true}>Proponer iniciativa</button>
         <button class="mt-2 btn btn-dark btn-lg d-flex align-items-center justify-content-center gap-2 w-100">Votar</button>
     </div>
     {#if showCreateModal}
-        <SendModal show={showCreateModal} onClose={() => showCreateModal = false} />
+        <ProposalModal show={showCreateModal} onClose={() => showCreateModal = false} />
     {/if}
 </div>
 

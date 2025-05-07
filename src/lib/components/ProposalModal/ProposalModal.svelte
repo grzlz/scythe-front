@@ -1,9 +1,10 @@
 <script>
-    import { supabase } from '$lib/supabase';// adjust to your setup
+    import { supabase } from '$lib/supabase';
     import { fly } from 'svelte/transition'
     import { cubicOut, cubicIn } from 'svelte/easing';
     
     let { onClose } = $props();
+    
     let proposalTitle = $state('');
     let proposalDesc = $state('');
     let proposalBurn = $state(1);
@@ -11,7 +12,6 @@
     let submitting = $state(false);
     
     async function submitProposal() {
-        console.log('Submitting proposal:', proposalTitle, proposalDesc, proposalBurn);
         submitting = true;
         feedback = '';
         
