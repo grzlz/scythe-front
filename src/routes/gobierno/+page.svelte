@@ -112,6 +112,7 @@
                   <th>Votos a favor</th>
                   <th>Votos en contra</th>
                   <th>Fecha</th>
+                  <th>Votar</th> 
                 </tr>
               </thead>
               <tbody>
@@ -123,6 +124,12 @@
                     <td>{p.votes_for}</td>
                     <td>{p.votes_against}</td>
                     <td>{new Date(p.created_at).toLocaleDateString()}</td>
+                    <td>
+                        <div class="d-flex gap-2">
+                          <button class="btn btn-sm btn-outline-success btn-no-outline" onclick={(e) => {e.stopPropagation(); console.log(p.id)}}>✅ </button>
+                          <button class="btn btn-sm btn-outline-danger btn-no-outline" onclick={(e) => {e.stopPropagation(); console.log(p.id)}}>❌</button>
+                        </div>
+                      </td>
                   </tr>
                 {/each}
               </tbody>
@@ -153,7 +160,6 @@
     
     <div class="text-end mt-4">
         <button class="btn btn-primary btn-lg d-flex align-items-center justify-content-center gap-2 w-100"  onclick={() => showCreateModal = true}>Proponer iniciativa</button>
-        <button class="mt-2 btn btn-dark btn-lg d-flex align-items-center justify-content-center gap-2 w-100">Votar</button>
     </div>
     {#if showCreateModal}
         <ProposalModal show={showCreateModal} onClose={() => showCreateModal = false} />
@@ -174,7 +180,7 @@
       letter-spacing: 0.5px;
     }
   
-    h2, h1 {
+    h2 {
       font-weight: bold;
       color: #007BFF;
       margin-top: 0.5rem;
@@ -187,9 +193,9 @@
     table td, table th {
       color: #333;
     }
-  
-    .badge {
-      font-size: 0.9rem;
+
+    .btn-no-outline {
+      border: none;
     }
   </style>
   
