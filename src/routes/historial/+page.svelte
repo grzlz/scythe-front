@@ -83,9 +83,7 @@
                 responsive: true,
                 plugins: {
                     legend: {
-                        labels: {
-                            color: '#333'
-                        }
+                      display: false
                     }
                 }
             }
