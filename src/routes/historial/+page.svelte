@@ -105,7 +105,7 @@
                 plugins: {
                   legend: {
                     display: true,
-                    position: 'right', // Puedes usar 'top', 'bottom', 'left', 'right'
+                    position: 'bottom', // Puedes usar 'top', 'bottom', 'left', 'right'
                     labels: {
                       color: '#333' // Color del texto
                     }
