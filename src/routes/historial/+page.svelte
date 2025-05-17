@@ -65,8 +65,29 @@
         const { data: walletList } = await supabase.from('wallets').select('wallet_id, balance').gt('balance', 0);
         
         const donutCtx = document.getElementById('tokenChart');
-        const walletLabels = walletList.map(wallet => wallet.wallet_id);
-        const walletBalances = walletList.map(wallet => wallet.balance);
+
+
+        const combined = walletList.map(wallet => ({
+            label: wallet.wallet_id,
+            value: wallet.balance
+          })).sort((a, b) => b.value - a.value);
+
+        const topN = 5;
+        const topHolders = combined.slice(0, topN);
+        const others = combined.slice(topN);
+        const otherTotal = others.reduce((sum, item) => sum + item.value, 0);
+
+        // Labels (abreviados si quieres) y valores
+        const walletLabels = [
+          ...topHolders.map(item => item.label),
+          ...(otherTotal > 0 ? ['Otros'] : [])
+        ];
+        const walletBalances = [
+          ...topHolders.map(item => item.value),
+          ...(otherTotal > 0 ? [otherTotal] : [])
+        ];
+
+
 
         donutChart = new Chart(donutCtx, {
             type: 'doughnut',
@@ -198,28 +219,7 @@
         </div></div>
       </div>
     </div>
-  
-    <!-- Hacer un carrusel aquí con las 4 iniciativas más recientes-->
-    <div class="row my-5">
-        <div class="col-12">
-          <div class="card glassy p-4">
-            <div class="card-body">
-              <h5>Iniciativas recientes</h5>
-              <div class="overflow-auto" style="max-height: 300px; scroll-behavior: smooth;">
-                <ul class="list-group list-group-flush">
-                  {#each governance as action}
-                    <li class="list-group-item glassy d-flex justify-content-between align-items-center mb-2 rounded shadow-sm">
-                      {action.title}
-                      <span class="badge bg-primary rounded-pill">{action.result} ({action.participation})</span>
-                    </li>
-                  {/each}
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      
+
     <div class="row mb-5">
         <div class="col-12">
           <div class="card glassy p-4">
@@ -310,7 +310,4 @@
       color: #333;
     }
   
-    .badge {
-      font-size: 0.9rem;
-    }
   </style>
