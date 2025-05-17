@@ -72,7 +72,7 @@
             value: wallet.balance
           })).sort((a, b) => b.value - a.value);
 
-        const topN = 5;
+        const topN = 8;
         const topHolders = combined.slice(0, topN);
         const others = combined.slice(topN);
         const otherTotal = others.reduce((sum, item) => sum + item.value, 0);
@@ -104,7 +104,9 @@
                 responsive: true,
                 plugins: {
                     legend: {
-                      display: false
+                      labels: {
+                            color: '#333'
+                        }
                     }
                 }
             }
