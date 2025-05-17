@@ -209,6 +209,9 @@
       <button class="btn btn btn-secondary btn-lg d-flex align-items-center justify-content-center gap-2 w-100" onclick={() => goto('/gobierno')}>
         Gobierno
       </button>
+      <button class="btn btn btn-warning btn-lg d-flex align-items-center justify-content-center gap-2 w-100" onclick={() => goto('/mercado')}>
+        Mercado
+      </button>
     </div>
 
     <!-- Modal -->
