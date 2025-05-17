@@ -103,11 +103,13 @@
             options: {
                 responsive: true,
                 plugins: {
-                    legend: {
-                      labels: {
-                            color: '#333'
-                        }
+                  legend: {
+                    display: true,
+                    position: 'right', // Puedes usar 'top', 'bottom', 'left', 'right'
+                    labels: {
+                      color: '#333' // Color del texto
                     }
+                  }
                 }
             }
         });
