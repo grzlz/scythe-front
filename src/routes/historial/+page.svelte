@@ -211,7 +211,7 @@
       </div>
     </div>
   
-    <div class="row text-center g-4">
+    <div class="row text-center g-4 mb-5">
       <div class="col-md-6">
         <div class="card glassy p-3"><div class="card-body">
           <h5>Holder promedio</h5><h2>{stats.avgScythesPerDev} scythes</h2>
